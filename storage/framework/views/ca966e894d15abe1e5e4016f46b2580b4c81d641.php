@@ -71,27 +71,27 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <?php if($transacciones): ?>  
-                                                        <?php $__currentLoopData = $transacciones; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $transaccion): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                        <?php if($patrocinios): ?>  
+                                                        <?php $__currentLoopData = $patrocinios; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $patrocinio): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                             <tr>
-                                                                <td><?php echo e($transaccion->id); ?></td>
-                                                                <td><?php echo e(date_format($transaccion->created_at,"Y/m/d H:i:s")); ?></td>
-                                                                <td><?php echo e($transaccion->tipo()->nombre); ?></td>
-                                                                <?php if($transaccion->tipo()->nombre=="COMPRA"): ?> <?php $class="text-success"; ?> <?php endif; ?>
-                                                                <?php if($transaccion->tipo()->nombre=="VENTA"): ?> <?php $class="text-danger"; ?> <?php endif; ?>
-                                                                <?php if($transaccion->tipo()->nombre=="POLIZA"): ?> <?php $class="text-danger"; ?> <?php endif; ?>
-                                                                <?php if($transaccion->tipo()->nombre=="SPONSORSHIP"): ?> <?php $class="text-success"; ?> <?php endif; ?>
-                                                                <?php if($transaccion->tipo()->nombre=="TRANSFERENCIA"): ?> <?php $class="text-danger"; ?> <?php endif; ?>
-                                                                <?php if($transaccion->tipo()->nombre=="INTERESES"): ?> <?php $class="text-success"; ?> <?php endif; ?>
+                                                                <td><?php echo e($patrocinio->id); ?></td>
+                                                                <td><?php echo e(date_format($patrocinio->created_at,"Y/m/d H:i:s")); ?></td>
+                                                                <td><?php echo e($patrocinio->tipo()->nombre); ?></td>
+                                                                <?php if($patrocinio->tipo()->nombre=="COMPRA"): ?> <?php $class="text-success"; ?> <?php endif; ?>
+                                                                <?php if($patrocinio->tipo()->nombre=="VENTA"): ?> <?php $class="text-danger"; ?> <?php endif; ?>
+                                                                <?php if($patrocinio->tipo()->nombre=="POLIZA"): ?> <?php $class="text-danger"; ?> <?php endif; ?>
+                                                                <?php if($patrocinio->tipo()->nombre=="SPONSORSHIP"): ?> <?php $class="text-success"; ?> <?php endif; ?>
+                                                                <?php if($patrocinio->tipo()->nombre=="TRANSFERENCIA"): ?> <?php $class="text-danger"; ?> <?php endif; ?>
+                                                                <?php if($patrocinio->tipo()->nombre=="INTERESES"): ?> <?php $class="text-success"; ?> <?php endif; ?>
                                                                 <td>
-                                                                    <span class="<?php echo e($class); ?>"><?php echo e(number_format($transaccion->valor,2)); ?> </span>
+                                                                    <span class="<?php echo e($class); ?>"><?php echo e(number_format($patrocinio->valor,2)); ?> </span>
                                                                 </td>
                                                                 
                                                             </tr><!-- end tr -->
                                                              
                                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                         <?php else: ?>
-                                                            <?php $error='<span class="p-2">No hay transacciones disponibles</span><br><br>'; ?>
+                                                            <?php $error='<span class="p-2">No hay patrocinios disponibles</span><br><br>'; ?>
                                                         <?php endif; ?>
                                                         
                                                        
@@ -116,30 +116,30 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <?php if($transacciones): ?>  
-                                                        <?php $__currentLoopData = $transacciones; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $transaccion): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                            <?php if($transaccion->tipo()->nombre=="VENTA" || $transaccion->tipo()->nombre=="POLIZA"  || $transaccion->tipo()->nombre=="TRANSFERENCIA" ): ?>  
+                                                        <?php if($patrocinios): ?>  
+                                                        <?php $__currentLoopData = $patrocinios; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $patrocinio): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                            <?php if($patrocinio->tipo()->nombre=="VENTA" || $patrocinio->tipo()->nombre=="POLIZA"  || $patrocinio->tipo()->nombre=="TRANSFERENCIA" ): ?>  
                                                             <tr>
-                                                                <td><?php echo e($transaccion->id); ?></td>
-                                                                <td><?php echo e(date_format($transaccion->created_at,"Y/m/d H:i:s")); ?></td>
-                                                                <td><?php echo e($transaccion->tipo()->nombre); ?></td>
-                                                                <?php if($transaccion->tipo()->nombre=="COMPRA"): ?> <?php $class="text-success"; ?> <?php endif; ?>
-                                                                <?php if($transaccion->tipo()->nombre=="VENTA"): ?> <?php $class="text-danger"; ?> <?php endif; ?>
-                                                                <?php if($transaccion->tipo()->nombre=="POLIZA"): ?> <?php $class="text-danger"; ?> <?php endif; ?>
-                                                                <?php if($transaccion->tipo()->nombre=="SPONSORSHIP"): ?> <?php $class="text-success"; ?> <?php endif; ?>
-                                                                <?php if($transaccion->tipo()->nombre=="TRANSFERENCIA"): ?> <?php $class="text-danger"; ?> <?php endif; ?>
-                                                                <?php if($transaccion->tipo()->nombre=="INTERESES"): ?> <?php $class="text-success"; ?> <?php endif; ?>
+                                                                <td><?php echo e($patrocinio->id); ?></td>
+                                                                <td><?php echo e(date_format($patrocinio->created_at,"Y/m/d H:i:s")); ?></td>
+                                                                <td><?php echo e($patrocinio->tipo()->nombre); ?></td>
+                                                                <?php if($patrocinio->tipo()->nombre=="COMPRA"): ?> <?php $class="text-success"; ?> <?php endif; ?>
+                                                                <?php if($patrocinio->tipo()->nombre=="VENTA"): ?> <?php $class="text-danger"; ?> <?php endif; ?>
+                                                                <?php if($patrocinio->tipo()->nombre=="POLIZA"): ?> <?php $class="text-danger"; ?> <?php endif; ?>
+                                                                <?php if($patrocinio->tipo()->nombre=="SPONSORSHIP"): ?> <?php $class="text-success"; ?> <?php endif; ?>
+                                                                <?php if($patrocinio->tipo()->nombre=="TRANSFERENCIA"): ?> <?php $class="text-danger"; ?> <?php endif; ?>
+                                                                <?php if($patrocinio->tipo()->nombre=="INTERESES"): ?> <?php $class="text-success"; ?> <?php endif; ?>
                                                                 <td>
-                                                                    <span class="<?php echo e($class); ?>"><?php echo e(number_format($transaccion->valor,2)); ?> </span>
+                                                                    <span class="<?php echo e($class); ?>"><?php echo e(number_format($patrocinio->valor,2)); ?> </span>
                                                                 </td>
                                                                 
                                                             </tr><!-- end tr -->
                                                             <?php else: ?>
-                                                                <?php $error='<span class="p-2">No hay transacciones disponibles</span><br><br>'; ?>
+                                                                <?php $error='<span class="p-2">No hay patrocinios disponibles</span><br><br>'; ?>
                                                             <?php endif; ?>
                                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                         <?php else: ?>
-                                                            <?php $error='<span class="p-2">No hay transacciones disponibles</span><br><br>'; ?>
+                                                            <?php $error='<span class="p-2">No hay patrocinios disponibles</span><br><br>'; ?>
                                                         <?php endif; ?>
                                                         
                                                        
@@ -163,29 +163,29 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <?php if($transacciones): ?>  
-                                                        <?php $__currentLoopData = $transacciones; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $transaccion): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                            <?php if($transaccion->tipo()->nombre=="COMPRA" || $transaccion->tipo()->nombre=="SPONSORSHIP"  || $transaccion->tipo()->nombre=="INTERESES" ): ?>  
+                                                        <?php if($patrocinios): ?>  
+                                                        <?php $__currentLoopData = $patrocinios; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $patrocinio): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                            <?php if($patrocinio->tipo()->nombre=="COMPRA" || $patrocinio->tipo()->nombre=="SPONSORSHIP"  || $patrocinio->tipo()->nombre=="INTERESES" ): ?>  
                                                             <tr>
-                                                                <td><?php echo e($transaccion->id); ?></td>
-                                                                <td><?php echo e(date_format($transaccion->created_at,"Y/m/d H:i:s")); ?></td>
-                                                                <td><?php echo e($transaccion->tipo()->nombre); ?></td>
-                                                                <?php if($transaccion->tipo()->nombre=="COMPRA"): ?> <?php $class="text-success"; ?> <?php endif; ?>
-                                                                <?php if($transaccion->tipo()->nombre=="VENTA"): ?> <?php $class="text-danger"; ?> <?php endif; ?>
-                                                                <?php if($transaccion->tipo()->nombre=="POLIZA"): ?> <?php $class="text-danger"; ?> <?php endif; ?>
-                                                                <?php if($transaccion->tipo()->nombre=="SPONSORSHIP"): ?> <?php $class="text-success"; ?> <?php endif; ?>
-                                                                <?php if($transaccion->tipo()->nombre=="TRANSFERENCIA"): ?> <?php $class="text-danger"; ?> <?php endif; ?>
-                                                                <?php if($transaccion->tipo()->nombre=="INTERESES"): ?> <?php $class="text-success"; ?> <?php endif; ?>
+                                                                <td><?php echo e($patrocinio->id); ?></td>
+                                                                <td><?php echo e(date_format($patrocinio->created_at,"Y/m/d H:i:s")); ?></td>
+                                                                <td><?php echo e($patrocinio->tipo()->nombre); ?></td>
+                                                                <?php if($patrocinio->tipo()->nombre=="COMPRA"): ?> <?php $class="text-success"; ?> <?php endif; ?>
+                                                                <?php if($patrocinio->tipo()->nombre=="VENTA"): ?> <?php $class="text-danger"; ?> <?php endif; ?>
+                                                                <?php if($patrocinio->tipo()->nombre=="POLIZA"): ?> <?php $class="text-danger"; ?> <?php endif; ?>
+                                                                <?php if($patrocinio->tipo()->nombre=="SPONSORSHIP"): ?> <?php $class="text-success"; ?> <?php endif; ?>
+                                                                <?php if($patrocinio->tipo()->nombre=="TRANSFERENCIA"): ?> <?php $class="text-danger"; ?> <?php endif; ?>
+                                                                <?php if($patrocinio->tipo()->nombre=="INTERESES"): ?> <?php $class="text-success"; ?> <?php endif; ?>
                                                                 <td>
-                                                                    <span class="<?php echo e($class); ?>"><?php echo e(number_format($transaccion->valor,2)); ?> </span>
+                                                                    <span class="<?php echo e($class); ?>"><?php echo e(number_format($patrocinio->valor,2)); ?> </span>
                                                                 </td>
                                                                 
                                                                 <?php else: ?>
-                                                                <?php $error='<span class="p-2">No hay transacciones disponibles</span><br><br>'; ?>
+                                                                <?php $error='<span class="p-2">No hay patrocinios disponibles</span><br><br>'; ?>
                                                             <?php endif; ?>
                                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                         <?php else: ?>
-                                                            <?php $error='<span class="p-2">No hay transacciones disponibles</span><br><br>'; ?>
+                                                            <?php $error='<span class="p-2">No hay patrocinios disponibles</span><br><br>'; ?>
                                                         <?php endif; ?>
                                                         
                                                        

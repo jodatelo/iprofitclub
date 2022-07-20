@@ -63,27 +63,27 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        @if ($transacciones)  
-                                                        @foreach ($transacciones as $transaccion )
+                                                        @if ($patrocinios)  
+                                                        @foreach ($patrocinios as $patrocinio )
                                                             <tr>
-                                                                <td>{{$transaccion->id}}</td>
-                                                                <td>{{date_format($transaccion->created_at,"Y/m/d H:i:s")}}</td>
-                                                                <td>{{$transaccion->tipo()->nombre}}</td>
-                                                                @if ($transaccion->tipo()->nombre=="COMPRA") @php $class="text-success"; @endphp @endif
-                                                                @if ($transaccion->tipo()->nombre=="VENTA") @php $class="text-danger"; @endphp @endif
-                                                                @if ($transaccion->tipo()->nombre=="POLIZA") @php $class="text-danger"; @endphp @endif
-                                                                @if ($transaccion->tipo()->nombre=="SPONSORSHIP") @php $class="text-success"; @endphp @endif
-                                                                @if ($transaccion->tipo()->nombre=="TRANSFERENCIA") @php $class="text-danger"; @endphp @endif
-                                                                @if ($transaccion->tipo()->nombre=="INTERESES") @php $class="text-success"; @endphp @endif
+                                                                <td>{{$patrocinio->id}}</td>
+                                                                <td>{{date_format($patrocinio->created_at,"Y/m/d H:i:s")}}</td>
+                                                                <td>{{$patrocinio->tipo()->nombre}}</td>
+                                                                @if ($patrocinio->tipo()->nombre=="COMPRA") @php $class="text-success"; @endphp @endif
+                                                                @if ($patrocinio->tipo()->nombre=="VENTA") @php $class="text-danger"; @endphp @endif
+                                                                @if ($patrocinio->tipo()->nombre=="POLIZA") @php $class="text-danger"; @endphp @endif
+                                                                @if ($patrocinio->tipo()->nombre=="SPONSORSHIP") @php $class="text-success"; @endphp @endif
+                                                                @if ($patrocinio->tipo()->nombre=="TRANSFERENCIA") @php $class="text-danger"; @endphp @endif
+                                                                @if ($patrocinio->tipo()->nombre=="INTERESES") @php $class="text-success"; @endphp @endif
                                                                 <td>
-                                                                    <span class="{{$class}}">{{number_format($transaccion->valor,2)}} </span>
+                                                                    <span class="{{$class}}">{{number_format($patrocinio->valor,2)}} </span>
                                                                 </td>
                                                                 
                                                             </tr><!-- end tr -->
                                                              
                                                         @endforeach
                                                         @else
-                                                            @php $error='<span class="p-2">No hay transacciones disponibles</span><br><br>'; @endphp
+                                                            @php $error='<span class="p-2">No hay patrocinios disponibles</span><br><br>'; @endphp
                                                         @endif
                                                         
                                                        
@@ -108,30 +108,30 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        @if ($transacciones)  
-                                                        @foreach ($transacciones as $transaccion )
-                                                            @if ($transaccion->tipo()->nombre=="VENTA" || $transaccion->tipo()->nombre=="POLIZA"  || $transaccion->tipo()->nombre=="TRANSFERENCIA" )  
+                                                        @if ($patrocinios)  
+                                                        @foreach ($patrocinios as $patrocinio )
+                                                            @if ($patrocinio->tipo()->nombre=="VENTA" || $patrocinio->tipo()->nombre=="POLIZA"  || $patrocinio->tipo()->nombre=="TRANSFERENCIA" )  
                                                             <tr>
-                                                                <td>{{$transaccion->id}}</td>
-                                                                <td>{{date_format($transaccion->created_at,"Y/m/d H:i:s")}}</td>
-                                                                <td>{{$transaccion->tipo()->nombre}}</td>
-                                                                @if ($transaccion->tipo()->nombre=="COMPRA") @php $class="text-success"; @endphp @endif
-                                                                @if ($transaccion->tipo()->nombre=="VENTA") @php $class="text-danger"; @endphp @endif
-                                                                @if ($transaccion->tipo()->nombre=="POLIZA") @php $class="text-danger"; @endphp @endif
-                                                                @if ($transaccion->tipo()->nombre=="SPONSORSHIP") @php $class="text-success"; @endphp @endif
-                                                                @if ($transaccion->tipo()->nombre=="TRANSFERENCIA") @php $class="text-danger"; @endphp @endif
-                                                                @if ($transaccion->tipo()->nombre=="INTERESES") @php $class="text-success"; @endphp @endif
+                                                                <td>{{$patrocinio->id}}</td>
+                                                                <td>{{date_format($patrocinio->created_at,"Y/m/d H:i:s")}}</td>
+                                                                <td>{{$patrocinio->tipo()->nombre}}</td>
+                                                                @if ($patrocinio->tipo()->nombre=="COMPRA") @php $class="text-success"; @endphp @endif
+                                                                @if ($patrocinio->tipo()->nombre=="VENTA") @php $class="text-danger"; @endphp @endif
+                                                                @if ($patrocinio->tipo()->nombre=="POLIZA") @php $class="text-danger"; @endphp @endif
+                                                                @if ($patrocinio->tipo()->nombre=="SPONSORSHIP") @php $class="text-success"; @endphp @endif
+                                                                @if ($patrocinio->tipo()->nombre=="TRANSFERENCIA") @php $class="text-danger"; @endphp @endif
+                                                                @if ($patrocinio->tipo()->nombre=="INTERESES") @php $class="text-success"; @endphp @endif
                                                                 <td>
-                                                                    <span class="{{$class}}">{{number_format($transaccion->valor,2)}} </span>
+                                                                    <span class="{{$class}}">{{number_format($patrocinio->valor,2)}} </span>
                                                                 </td>
                                                                 
                                                             </tr><!-- end tr -->
                                                             @else
-                                                                @php $error='<span class="p-2">No hay transacciones disponibles</span><br><br>'; @endphp
+                                                                @php $error='<span class="p-2">No hay patrocinios disponibles</span><br><br>'; @endphp
                                                             @endif
                                                         @endforeach
                                                         @else
-                                                            @php $error='<span class="p-2">No hay transacciones disponibles</span><br><br>'; @endphp
+                                                            @php $error='<span class="p-2">No hay patrocinios disponibles</span><br><br>'; @endphp
                                                         @endif
                                                         
                                                        
@@ -155,29 +155,29 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        @if ($transacciones)  
-                                                        @foreach ($transacciones as $transaccion )
-                                                            @if ($transaccion->tipo()->nombre=="COMPRA" || $transaccion->tipo()->nombre=="SPONSORSHIP"  || $transaccion->tipo()->nombre=="INTERESES" )  
+                                                        @if ($patrocinios)  
+                                                        @foreach ($patrocinios as $patrocinio )
+                                                            @if ($patrocinio->tipo()->nombre=="COMPRA" || $patrocinio->tipo()->nombre=="SPONSORSHIP"  || $patrocinio->tipo()->nombre=="INTERESES" )  
                                                             <tr>
-                                                                <td>{{$transaccion->id}}</td>
-                                                                <td>{{date_format($transaccion->created_at,"Y/m/d H:i:s")}}</td>
-                                                                <td>{{$transaccion->tipo()->nombre}}</td>
-                                                                @if ($transaccion->tipo()->nombre=="COMPRA") @php $class="text-success"; @endphp @endif
-                                                                @if ($transaccion->tipo()->nombre=="VENTA") @php $class="text-danger"; @endphp @endif
-                                                                @if ($transaccion->tipo()->nombre=="POLIZA") @php $class="text-danger"; @endphp @endif
-                                                                @if ($transaccion->tipo()->nombre=="SPONSORSHIP") @php $class="text-success"; @endphp @endif
-                                                                @if ($transaccion->tipo()->nombre=="TRANSFERENCIA") @php $class="text-danger"; @endphp @endif
-                                                                @if ($transaccion->tipo()->nombre=="INTERESES") @php $class="text-success"; @endphp @endif
+                                                                <td>{{$patrocinio->id}}</td>
+                                                                <td>{{date_format($patrocinio->created_at,"Y/m/d H:i:s")}}</td>
+                                                                <td>{{$patrocinio->tipo()->nombre}}</td>
+                                                                @if ($patrocinio->tipo()->nombre=="COMPRA") @php $class="text-success"; @endphp @endif
+                                                                @if ($patrocinio->tipo()->nombre=="VENTA") @php $class="text-danger"; @endphp @endif
+                                                                @if ($patrocinio->tipo()->nombre=="POLIZA") @php $class="text-danger"; @endphp @endif
+                                                                @if ($patrocinio->tipo()->nombre=="SPONSORSHIP") @php $class="text-success"; @endphp @endif
+                                                                @if ($patrocinio->tipo()->nombre=="TRANSFERENCIA") @php $class="text-danger"; @endphp @endif
+                                                                @if ($patrocinio->tipo()->nombre=="INTERESES") @php $class="text-success"; @endphp @endif
                                                                 <td>
-                                                                    <span class="{{$class}}">{{number_format($transaccion->valor,2)}} </span>
+                                                                    <span class="{{$class}}">{{number_format($patrocinio->valor,2)}} </span>
                                                                 </td>
                                                                 
                                                                 @else
-                                                                @php $error='<span class="p-2">No hay transacciones disponibles</span><br><br>'; @endphp
+                                                                @php $error='<span class="p-2">No hay patrocinios disponibles</span><br><br>'; @endphp
                                                             @endif
                                                         @endforeach
                                                         @else
-                                                            @php $error='<span class="p-2">No hay transacciones disponibles</span><br><br>'; @endphp
+                                                            @php $error='<span class="p-2">No hay patrocinios disponibles</span><br><br>'; @endphp
                                                         @endif
                                                         
                                                        

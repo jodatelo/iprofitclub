@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Referido;
 use App\Models\Balance;
 use App\Models\Transaccion;
 use App\Models\Finanzas;
@@ -32,11 +33,11 @@ class PatrociniosController extends Controller
     public function index(Request $request)
     {
          
-        $balance=Balance::where([ "status"=>1,"user_id"=>auth()->user()->id])->first();
-        $transacciones=Transaccion::where(["status"=>1,"user_id"=>auth()->user()->id])->get();
-        //die(var_dump($transacciones));
+        //$balance=Balance::where([ "status"=>1,"user_id"=>auth()->user()->id])->first();
+        $patrocinio=Referido::where(["status"=>1,"user_id"=>auth()->user()->id])->get();
+        //die(var_dump($patrocinio));
          
-        return view('patrocinio.index',['balance'=>$balance,'transacciones'=>$transacciones]);
+        return view('patrocinio.index',['patrocinios'=>$patrocinio]);
 
     }
 

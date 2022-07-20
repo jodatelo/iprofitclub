@@ -16,7 +16,8 @@ return new class extends Migration
         Schema::create('tipo_transaccions', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
-            $table->string('tipomov',1);
+            $table->string('tipomov',2);
+
             $table->unsignedBigInteger('user_id');
             $table->boolean('isDeleted')->default(0);
             $table->foreign('user_id')->references('id')->on('users');

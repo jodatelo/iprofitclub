@@ -13,18 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('transaccions', function (Blueprint $table) {
+        Schema::create('tipopagos', function (Blueprint $table) {
             $table->id();
+            $table->string('nombre');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->decimal('valor',10,2);
-            $table->unsignedBigInteger('tipotrans');
-            $table->string('tipomov',2);
-
-            $table->dateTime('fechaact')->nullable();
-            $table->unsignedBigInteger('userupd_id');
             $table->boolean('isDeleted')->default(0);
-            $table->boolean('statustrans')->default(1);
             $table->boolean('status')->default(1);
             $table->timestamps();
         });
@@ -37,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('transaccions');
+        Schema::dropIfExists('tipopagos');
     }
 };

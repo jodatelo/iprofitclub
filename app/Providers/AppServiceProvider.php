@@ -32,7 +32,7 @@ class AppServiceProvider extends ServiceProvider
         //$menus=DB::table('menus')->get();
  
         //return view('layouts.app');
-        //Schema::defaultStringLength(191);
+        Schema::defaultStringLength(191);
 
     }
 }

@@ -18,7 +18,7 @@
                     </div>
                     <div class="d-flex align-items-end justify-content-between mt-4">
                         <div class="col-9">
-                            <h4 class="fs-22 fw-semibold ff-secondary mb-4">$<span class="counter-value" data-target="{{$balance->saldo}}">{{$balance->saldo}}</span></h4>
+                            <h4 class="fs-22 fw-semibold ff-secondary mb-4">$<span class="counter-value" data-target="@if (@$balance->saldo) {{$balance->saldo}} @else 0.00 @endif">@if (@$balance->saldo) {{$balance->saldo}} @else 0.00 @endif</span></h4>
                             
                             <input type="text" class="form-control col-10" id="basiInput" value="http://127.0.0.1:8000/referido/3" disabled>
                         </div>
