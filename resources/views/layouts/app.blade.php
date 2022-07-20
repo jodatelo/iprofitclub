@@ -1,8 +1,3 @@
-<?php 
-use App\Models\Menu;
-$menus=Menu::where(["parent"=>0,"status"=>1])->get();
-?>
-
 <!doctype html >
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="sm-hover" data-sidebar-image="none">
  

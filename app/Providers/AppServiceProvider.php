@@ -1,10 +1,12 @@
 <?php
 
+
 namespace App\Providers;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
-
+use Illuminate\Support\Facades\View;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,8 +27,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
-        Schema::defaultStringLength(191);
+     
+        //grgr
+        //$menus=DB::table('menus')->get();
+ 
+        //return view('layouts.app');
+        //Schema::defaultStringLength(191);
 
     }
 }

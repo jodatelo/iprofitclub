@@ -1,5 +1,5 @@
 <!doctype html >
-<html lang="<?php echo e(str_replace('_', '-', app()->getLocale())); ?>" data-layout="vertical" data-topbar="light" data-="dark" data--size="sm-hover" data--image="none">
+<html lang="<?php echo e(str_replace('_', '-', app()->getLocale())); ?>" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="sm-hover" data-sidebar-image="none">
  
 <head>
     <meta charset="utf-8" />
@@ -18,14 +18,15 @@
     <!-- Begin page -->
     <div id="layout-wrapper">
         <?php echo $__env->make('layouts.topbar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-        <?php echo $__env->make('layouts.', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+        <?php echo $__env->make('layouts.sidebar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         <!-- ============================================================== -->
         <!-- Start right Content here -->
         <!-- ============================================================== -->
         <div class="main-content">
             <div class="page-content">
                 <div class="container-fluid">
-                    <?php echo $__env->yieldContent('content'); ?>
+                    <?php echo e($slot); ?>
+
                 </div>
                 <!-- container-fluid -->
             </div>
@@ -43,4 +44,4 @@
 </body>
 
 </html>
-<?php /**PATH C:\xampp\htdocs\modern\resources\views/layouts/master.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\xampp\htdocs\iprofitclub\resources\views/layout/app.blade.php ENDPATH**/ ?>

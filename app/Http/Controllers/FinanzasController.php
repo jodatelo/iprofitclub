@@ -3,14 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Models\Menu;
+use App\Models\Balance;
+use App\Models\Transaccion;
+use App\Models\Finanzas;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Session;
 
-class HomeController extends Controller
+class FinanzasController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -29,18 +31,16 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        if (view()->exists($request->path())) {
-            $menus=Menu::where(["parent"=>0,"status"=>1])->get();
-            //var_dump($menus);
-            return view($request->path(),['menus'=>$menus]);
-        }
-        return abort(404);
+         
+        $balance=Balance::where([ "status"=>1,"user_id"=>auth()->user()->id])->first();
+        $transacciones=Transaccion::where(["status"=>1,"user_id"=>auth()->user()->id])->get();
+        //die(var_dump($transacciones));
+         
+        return view('finanzas.index',['balance'=>$balance,'transacciones'=>$transacciones]);
+
     }
 
-    public function root()
-    {
-        return redirect('index');
-    }
+ 
 
     /*Language Translation*/
     public function lang($locale)

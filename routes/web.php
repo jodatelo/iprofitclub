@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\FinanzasController;
+use App\Http\Controllers\PatrociniosController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,10 +23,13 @@ Route::get('/register/{referral?}', [App\Http\Controllers\Auth\RegisterControlle
 //Language Translation
 Route::get('index/{locale}', [App\Http\Controllers\HomeController::class, 'lang']);
 
-Route::get('/', [App\Http\Controllers\HomeController::class, 'root'])->name('root');
-
+Route::get('/', [App\Http\Controllers\HomeController::class,'root'])->name('root');
+Route::resource('/finanzas',  FinanzasController::class);
+Route::resource('/patrocinios',  PatrociniosController::class);
+ 
 //Update User Details
 Route::post('/update-profile/{id}', [App\Http\Controllers\HomeController::class, 'updateProfile'])->name('updateProfile');
 Route::post('/update-password/{id}', [App\Http\Controllers\HomeController::class, 'updatePassword'])->name('updatePassword');
 
-Route::get('{any}', [App\Http\Controllers\HomeController::class, 'index'])->name('index');
+Route::get('{any}', [HomeController::class, 'index'])->name('index');
+//Route::resource('/finanzas', FinanzasController::class);

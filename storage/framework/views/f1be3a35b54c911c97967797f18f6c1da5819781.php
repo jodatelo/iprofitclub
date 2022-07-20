@@ -1,5 +1,10 @@
+<?php 
+use App\Models\Menu;
+$menus=Menu::where(["parent"=>0,"status"=>1])->get();
+?>
+
 <!doctype html >
-<html lang="<?php echo e(str_replace('_', '-', app()->getLocale())); ?>" data-layout="vertical" data-topbar="light" data-="dark" data--size="sm-hover" data--image="none">
+<html lang="<?php echo e(str_replace('_', '-', app()->getLocale())); ?>" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="sm-hover" data-sidebar-image="none">
  
 <head>
     <meta charset="utf-8" />
@@ -18,7 +23,7 @@
     <!-- Begin page -->
     <div id="layout-wrapper">
         <?php echo $__env->make('layouts.topbar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-        <?php echo $__env->make('layouts.', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+        <?php echo $__env->make('layouts.sidebar',["menus"=>$menus], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         <!-- ============================================================== -->
         <!-- Start right Content here -->
         <!-- ============================================================== -->
@@ -43,4 +48,4 @@
 </body>
 
 </html>
-<?php /**PATH C:\xampp\htdocs\modern\resources\views/layouts/master.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\xampp\htdocs\iprofitclub\resources\views/layouts/master.blade.php ENDPATH**/ ?>
