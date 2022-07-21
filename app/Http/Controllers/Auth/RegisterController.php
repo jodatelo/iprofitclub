@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use App\Models\Balance;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -80,7 +81,7 @@ class RegisterController extends Controller
             $avatar->move($avatarPath, $avatarName);
         }
 */
-        return User::create([
+        $user=User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'dni' => $data['dni'],
@@ -88,5 +89,16 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
             //'avatar' =>  $avatarName,
         ]);
+        $balance= new Balance();
+        $balance->user_id=$user->id;
+        $balance->saldo=0;
+        $balance->fechaact=date('Y-m-d H:i:s');
+        $balance->userupd_id=$user->id;
+        $balance->isDeleted=0;
+        $balance->status=1;
+        $balance->created_at=date('Y-m-d H:i:s');
+        $balance->saveOrFail();
+
+        return $user;
     }
 }

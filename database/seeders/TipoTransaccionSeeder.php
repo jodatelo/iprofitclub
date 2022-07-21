@@ -45,5 +45,25 @@ class TipoTransaccionSeeder extends Seeder
             'isDeleted' => 0,'status' => '1','created_at' => '2022-07-19 19:02:46',
             'updated_at' => '2022-07-19 19:02:46',
         ]);
+        Tipo_transaccion::create([
+            'id' => '7','nombre' => 'ENVIO','tipomov' => '-1','user_id' => '1',
+            'isDeleted' => 0,'status' => '1','created_at' => '2022-07-19 19:02:46',
+            'updated_at' => '2022-07-19 19:02:46',
+        ]);
+        Tipo_transaccion::create([
+            'id' => '8','nombre' => 'RECIBIDO','tipomov' => '1','user_id' => '1',
+            'isDeleted' => 0,'status' => '1','created_at' => '2022-07-19 19:02:46',
+            'updated_at' => '2022-07-19 19:02:46',
+        ]);
+        Tipo_transaccion::create([
+            'id' => '9','nombre' => 'INVERSION POLIZA','tipomov' => '1','user_id' => '1',
+            'isDeleted' => 0,'status' => '1','created_at' => '2022-07-19 19:02:46',
+            'updated_at' => '2022-07-19 19:02:46',
+        ]);
+        Tipo_transaccion::create([
+            'id' => '10','nombre' => 'GANANCIA POLIZA','tipomov' => '1','user_id' => '1',
+            'isDeleted' => 0,'status' => '1','created_at' => '2022-07-19 19:02:46',
+            'updated_at' => '2022-07-19 19:02:46',
+        ]);
     }
 }

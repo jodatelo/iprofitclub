@@ -40,7 +40,73 @@ class FinanzasController extends Controller
 
     }
 
- 
+    public function store(Request $request)
+    {
+        //die("GOFJO");
+        $fecha=date('Y-m-d H:i:s');
+        $user=User::where([ "email"=>$request->email])->get();
+        
+        if (!$user->toArray()){
+            return redirect()->back()->with(['msg' => "El correo ingresado no existe!",'clase' => "bg-soft-danger text-danger"]);
+        } 
+            $transaccion = new Transaccion();
+            $transaccion->valor=$request->monto;
+            $transaccion->tipotrans=7;
+            $transaccion->tipomov=-1;
+            $transaccion->fechaact=$fecha;
+            $transaccion->userupd_id=0;
+            $transaccion->isDeleted=0;
+            $transaccion->statustrans=1;
+            $transaccion->status=1;
+            $transaccion->created_at = $fecha;
+            $transaccion->user_id =auth()->user()->id;
+            $transaccion->saveOrFail();
+
+            $transaccion = new Transaccion();
+            $transaccion->valor=$request->monto;
+            $transaccion->tipotrans=8;
+            $transaccion->tipomov=1;
+            $transaccion->fechaact=$fecha;
+            $transaccion->userupd_id=0;
+            $transaccion->isDeleted=0;
+            $transaccion->statustrans=1;
+            $transaccion->status=1;
+            $transaccion->created_at = $fecha;
+            $transaccion->user_id =$user[0]->id;
+            $transaccion->saveOrFail();
+
+            $balance=Balance::where([ "status"=>1,"user_id"=>auth()->user()->id])->first();
+            $balance->saldo=$balance->saldo-$request->monto;
+            $balance->saveOrFail();
+
+
+            $balance=Balance::where([ "status"=>1,"user_id"=>$user[0]->id])->first();
+            $balance->saldo=$balance->saldo+$request->monto;
+            $balance->saveOrFail();
+        //$model->saveOrFail();
+        return redirect()->route('finanzas.index')->with(['msg' => "Envio realizado con éxito!",'clase' => "bg-soft-success text-success"]);
+        //return redirect()->route('finanzas.index')->with('msg','Transacción enviada!');
+
+    }
+
+    
+
+   
+    public function enviar()
+    {
+        $balance=Balance::where([ "status"=>1,"user_id"=>auth()->user()->id])->get();
+        return view('finanzas.enviar',['balance'=>$balance]);
+
+    }
+
+    public function show()
+    {
+        /*$balance=Balance::where([ "status"=>1,"user_id"=>auth()->user()->id])->get();
+        return view('finanzas.enviar',['balance'=>$balance]);*/
+echo 'O1!!!';
+    }
+
+
 
     /*Language Translation*/
     public function lang($locale)

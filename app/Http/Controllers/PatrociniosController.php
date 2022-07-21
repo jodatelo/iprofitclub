@@ -41,6 +41,41 @@ class PatrociniosController extends Controller
 
     }
 
+    public function cobrar($id)
+    {
+        $fecha=date('Y-m-d H:i:s');
+        $referido= Referido::where([ "status"=>1,"id"=>$id])->first(); 
+        $referido->statustrans=4;
+        
+        if ($referido->saveOrFail()){
+            $transaccion= new Transaccion;
+            $transaccion->valor=$referido->valor;
+            $transaccion->tipotrans=4;
+            $transaccion->tipomov=1;
+            $transaccion->fechaact=$fecha;
+            $transaccion->userupd_id=0;
+            $transaccion->isDeleted=0;
+            $transaccion->statustrans=1;
+            $transaccion->status=1;
+            $transaccion->created_at = $fecha;
+            $transaccion->user_id =auth()->user()->id;
+            $transaccion->saveOrFail();
+    
+            $balance=Balance::where([ "status"=>1,"user_id"=>auth()->user()->id])->first();
+            $balance->saldo=$balance->saldo+$referido->valor;
+            $balance->saveOrFail();
+            return redirect()->route('patrocinios.index')->with(['msg' => "Patrocinio acreditado con éxito!",'clase' => "bg-soft-success text-success"]);
+
+        }else{
+            return redirect()->route('patrocinios.index')->with(['msg' => "Error al acreditar el patrocinio!",'clase' => "bg-soft-danger text-danger"]);
+        }
+        return redirect()->route('patrocinios.index')->with(['msg' => "Error al acreditar el patrocinio!",'clase' => "bg-soft-danger text-danger"]);
+
+
+       
+
+    }
+
  
 
     /*Language Translation*/
@@ -56,78 +91,5 @@ class PatrociniosController extends Controller
         }
     }
 
-    public function updateProfile(Request $request, $id)
-    {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email'],
-            'avatar' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:1024'],
-        ]);
-
-        $user = User::find($id);
-        $user->name = $request->get('name');
-        $user->email = $request->get('email');
-
-        if ($request->file('avatar')) {
-            $avatar = $request->file('avatar');
-            $avatarName = time() . '.' . $avatar->getClientOriginalExtension();
-            $avatarPath = public_path('/images/');
-            $avatar->move($avatarPath, $avatarName);
-            $user->avatar =  $avatarName;
-        }
-
-        $user->update();
-        if ($user) {
-            Session::flash('message', 'User Details Updated successfully!');
-            Session::flash('alert-class', 'alert-success');
-            // return response()->json([
-            //     'isSuccess' => true,
-            //     'Message' => "User Details Updated successfully!"
-            // ], 200); // Status code here
-            return redirect()->back();
-        } else {
-            Session::flash('message', 'Something went wrong!');
-            Session::flash('alert-class', 'alert-danger');
-            // return response()->json([
-            //     'isSuccess' => true,
-            //     'Message' => "Something went wrong!"
-            // ], 200); // Status code here
-            return redirect()->back();
-
-        }
-    }
-
-    public function updatePassword(Request $request, $id)
-    {
-        $request->validate([
-            'current_password' => ['required', 'string'],
-            'password' => ['required', 'string', 'min:6', 'confirmed'],
-        ]);
-
-        if (!(Hash::check($request->get('current_password'), Auth::user()->password))) {
-            return response()->json([
-                'isSuccess' => false,
-                'Message' => "Your Current password does not matches with the password you provided. Please try again."
-            ], 200); // Status code
-        } else {
-            $user = User::find($id);
-            $user->password = Hash::make($request->get('password'));
-            $user->update();
-            if ($user) {
-                Session::flash('message', 'Password updated successfully!');
-                Session::flash('alert-class', 'alert-success');
-                return response()->json([
-                    'isSuccess' => true,
-                    'Message' => "Password updated successfully!"
-                ], 200); // Status code here
-            } else {
-                Session::flash('message', 'Something went wrong!');
-                Session::flash('alert-class', 'alert-danger');
-                return response()->json([
-                    'isSuccess' => true,
-                    'Message' => "Something went wrong!"
-                ], 200); // Status code here
-            }
-        }
-    }
+    
 }
