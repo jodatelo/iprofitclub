@@ -33,6 +33,7 @@ Route::get('/finanzas',  'App\Http\Controllers\FinanzasController@index')->name(
 Route::get('/finanzas/enviar',  'App\Http\Controllers\FinanzasController@enviar')->name('finanzas.enviar');
 Route::post('/finanzas/store',  'App\Http\Controllers\FinanzasController@store')->name('finanzas.store');
 Route::post('/finanzas/comprar',  'App\Http\Controllers\FinanzasController@comprar')->name('finanzas.comprar');
+Route::get('/finanzas/compras',  'App\Http\Controllers\FinanzasController@compras')->name('finanzas.compras');
 
 //Route::resource('/patrocinios',  PatrociniosController::class);
 Route::get('/patrocinios',  'App\Http\Controllers\PatrociniosController@index')->name('patrocinios.index');

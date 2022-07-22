@@ -9,69 +9,175 @@
 <?php $component->withAttributes([]); ?>
     <div class="row">
          
+        <p class="text-uppercase fw-medium text-muted mb-0 pb-2" style="color:black !important">COMPRAR SALDO</p>
 
-        <div class="col-xl-5 col-md-6">
+        <div class="col-xl-8 col-md-10">
             <!-- card -->
-            <div class="card card-animate">
-                <?php if(\Session::has('msg')): ?>
-                <div class="alert  <?php echo \Session::get('clase'); ?> m-2">
-                    <ul style="" class="p-0 m-0">
-                        <li style="list-style: none;"><?php echo \Session::get('msg'); ?></li>
-                    </ul>
-                </div>
-                <?php endif; ?>
+            <form method="POST" action="<?php echo e(route('finanzas.solicitar')); ?>" enctype="multipart/form-data">
+                <?php echo csrf_field(); ?>
+                <div class="card card-animate">
+                    <?php if(\Session::has('msg')): ?>
+                    <div class="alert  <?php echo \Session::get('clase'); ?> m-2">
+                        <ul style="" class="p-0 m-0">
+                            <li style="list-style: none;"><?php echo \Session::get('msg'); ?></li>
+                        </ul>
+                    </div>
+                    <?php endif; ?>
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1">
-                            <p class="text-uppercase fw-medium text-muted mb-0">Mi balance</p>
+                            <p class="text-uppercase fw-medium text-muted mb-0">Monto disponible</p>
                         </div>
                         <div class="flex-shrink-0">
-                            <h5 class="text-muted fs-14 mb-0">
-                                +0.00 %
-                            </h5>
+                           
                         </div>
                     </div>
-                    <div class="d-flex align-items-end justify-content-between mt-4">
-                        <div class="col-9">
-                            <h4 class="fs-22 fw-semibold ff-secondary mb-4">$<span class="counter-value" data-target="<?php if(@$balance->saldo): ?> <?php echo e($balance->saldo); ?> <?php else: ?> 0.00 <?php endif; ?>"><?php if(@$balance->saldo): ?> <?php echo e($balance->saldo); ?> <?php else: ?> 0.00 <?php endif; ?></span></h4>
+                    
+                    
+                    <div class="d-flex align-items-end justify-content-between mt-2">
+                        
+                        
+                        <div class="col-12">
+                            <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value text-success" data-target="<?php if(@$balance[0]->saldo): ?> <?php echo e($balance[0]->saldo); ?> <?php else: ?> $ 0.00 <?php endif; ?>"><?php if(@$balance[0]->saldo): ?> <?php echo e('$ '.$balance[0]->saldo); ?> <?php else: ?> $ 0.00 <?php endif; ?></span></h4>
                             
-                            <input type="text" class="form-control col-10" id="basiInput" value="http://127.0.0.1:8000/register/<?php echo e(auth()->user()->email); ?>" disabled>
+                            
+                            <div class="row">
+                                <div class="col-6 mb-2">
+                                    <div class="pb-1">Forma de pago</div>
+                                    <select  id="forma" name="forma" class="form-control col-12"   value="">
+                                        <option select="0">Seleccione</option>
+                                        <?php $__currentLoopData = $formas; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $forma): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <option value="<?php echo e($forma->id); ?>"><?php echo e($forma->nombre); ?></option>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                    </select>
+                                    <?php $__errorArgs = ['forma'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                                        <span class="invalid-feedback" role="alert">
+                                                            <strong><?php echo e($message); ?></strong>
+                                                        </span>
+                                                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                                                    <div class="invalid-feedback">
+                                                        Por favor, ingrese la forma de pago
+                                                    </div>
+                                </div>
+                                <div class="col-6 mb-2">
+                                    <div class="pb-1">Número de transacción</div>
+                                    <input type="number" id="transaccion" name="transaccion" class="form-control col-12"   value="" placeholder="# 121323233">
+                                    <?php $__errorArgs = ['transaccion'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                                        <span class="invalid-feedback" role="alert">
+                                                            <strong><?php echo e($message); ?></strong>
+                                                        </span>
+                                                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                                                    <div class="invalid-feedback">
+                                                        Por favor, ingrese elnúmero de transacción
+                                                    </div>
+                                </div>
+                                <div class="col-6 mb-2">
+                                    <div class="pb-1">Banco de transferencia</div>
+                                    <select  id="banco" name="banco" class="form-control col-12"   value="">
+                                        <option select="0">Seleccione</option>
+                                        <?php $__currentLoopData = $bancos; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $banco): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <option value="<?php echo e($banco->id); ?>"><?php echo e($banco->nombre); ?></option>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                    </select>
+                                    <?php $__errorArgs = ['banco'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                                        <span class="invalid-feedback" role="alert">
+                                                            <strong><?php echo e($message); ?></strong>
+                                                        </span>
+                                                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                                                    <div class="invalid-feedback">
+                                                        Por favor, ingrese la forma de pago
+                                                    </div>
+                                </div>
+                                <div class="col-6 mb-2">
+                                    <div class="pb-1">Ingresa el monto</div>
+                                    <input type="number" id="monto" name="monto" class="form-control col-12"   value="" placeholder="$ 0.00">
+                                    <?php $__errorArgs = ['monto'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                                        <span class="invalid-feedback" role="alert">
+                                                            <strong><?php echo e($message); ?></strong>
+                                                        </span>
+                                                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                                                    <div class="invalid-feedback">
+                                                        Por favor, ingrese el monto
+                                                    </div>
+                                </div>
+                                <div class="col-6 mb-2">
+                                    <div class="pb-1">Foto / Comprobante</div>
+                                    <input type="file" id="archivo" name="archivo" class="form-control col-12"   value="" placeholder="$ 0.00">
+                                    <?php $__errorArgs = ['archivo'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                                        <span class="invalid-feedback" role="alert">
+                                                            <strong><?php echo e($message); ?></strong>
+                                                        </span>
+                                                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                                                    <div class="invalid-feedback">
+                                                        Por favor, ingrese el monto
+                                                    </div>
+                                </div>
+                            </div>
+                            
+                                                      
                         </div>
-                        <div class="avatar-sm flex-shrink-0">
-                            <span class="avatar-title bg-soft-primary rounded fs-3">
-                                <i class="bx bx-wallet text-primary"></i>
-                            </span>
-                        </div>
+
+                        
+                       
                     </div>
+
+                   
+                     
                 </div><!-- end card body -->
+                <?php echo method_field('POST'); ?>
                 <hr class="m-1">
                 <div class="col-12 p-2 text-center">
-                    <a class="btn btn-xs btn-outline-primary p-2" href="<?php echo e(route('finanzas.enviar')); ?>">
-                        Enviar
-                    </a>&nbsp;&nbsp;&nbsp;
-                    <!--<a class="btn btn-xs btn-outline-primary p-2" target="_blank" href="https://api.whatsapp.com/send?phone=50761741514&text=Deseo%20comprar%20coins%20para%20mi%20cuenta%20iProfit">-->
-
-                    <a class="btn btn-xs btn-outline-primary p-2" target="_blank" href="<?php echo e(route('finanzas.compras')); ?>">
-                        Comprar
-                    </a>
+                    <button type="submit" class="btn btn-xs btn-outline-secondary p-2">
+                        <i class="fa fa-save"></i>&nbsp;Solicitar</button>
+                        </div>      
+                
+                   
                          
                    
                 </div>
             </div><!-- end card -->
-          
+            </form>
         </div><!-- end col -->
 
        
-
-       <!-- <div class="col-12 pt-4">
-            <div class="col-xl-12">
-                <h5>Últimos movimientos</h5>
-            </div>
-        </div>
-    -->
         <div class="card">
             <div class="card-header">
-                <h4 class="card-title mb-0">Últimos movimientos</h4>
+                <h4 class="card-title mb-0">Compras</h4>
             </div><!-- end card header -->
             <div class="card-body form-steps">
                 <form class="vertical-navs-step">
@@ -88,21 +194,21 @@
                                 <button class="nav-link " id="v-pills-bill-enviados" data-bs-toggle="pill" data-bs-target="#v-pills-enviados" type="button" role="tab" aria-controls="v-pills-enviados" aria-selected="false" data-position="1">
                                     <span class="step-title me-2">
                                         <i class="mdi mdi-arrow-right step-icon me-2"></i>
-                                        INVERSIONES
+                                        PENDIENTES
                                     </span>
                                      
                                 </button>
                                 <button class="nav-link " id="v-pills-bill-compras" data-bs-toggle="pill" data-bs-target="#v-pills-compras" type="button" role="tab" aria-controls="v-pills-compras" aria-selected="false" data-position="1">
                                     <span class="step-title me-2">
                                         <i class="mdi mdi-arrow-right step-icon me-2"></i>
-                                        COMPRAS
+                                        ACREDITADOS
                                     </span>
                                      
                                 </button>
                                 <button class="nav-link " id="v-pills-bill-ventas" data-bs-toggle="pill" data-bs-target="#v-pills-ventas" type="button" role="tab" aria-controls="v-pills-ventas" aria-selected="false" data-position="1">
                                     <span class="step-title me-2">
                                         <i class="mdi mdi-arrow-right step-icon me-2"></i>
-                                        VENTAS
+                                        RECHAZADOS
                                     </span>
                                      
                                 </button>
@@ -334,15 +440,16 @@
                 </form>
             </div>
         </div>
+
+
+
+
+
     </div>
-<script>
-    window.onload=function() {
-        document.getElementById("v-pills-bill-todos").click();
-		}
-    </script>
+     
  <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginal8e2ce59650f81721f93fef32250174d77c3531da)): ?>
 <?php $component = $__componentOriginal8e2ce59650f81721f93fef32250174d77c3531da; ?>
 <?php unset($__componentOriginal8e2ce59650f81721f93fef32250174d77c3531da); ?>
-<?php endif; ?><?php /**PATH C:\xampp\htdocs\iprofitclub\resources\views/finanzas/index.blade.php ENDPATH**/ ?>
+<?php endif; ?><?php /**PATH C:\xampp\htdocs\iprofitclub\resources\views/finanzas/compra.blade.php ENDPATH**/ ?>

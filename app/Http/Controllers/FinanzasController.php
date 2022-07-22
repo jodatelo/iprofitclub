@@ -6,6 +6,8 @@ use App\Models\User;
 use App\Models\Balance;
 use App\Models\Transaccion;
 use App\Models\Finanzas;
+use App\Models\Banco;
+use App\Models\Tipopago;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -96,6 +98,17 @@ class FinanzasController extends Controller
     {
         $balance=Balance::where([ "status"=>1,"user_id"=>auth()->user()->id])->get();
         return view('finanzas.enviar',['balance'=>$balance]);
+
+    }
+
+    public function compras()
+    {
+        $transacciones=Transaccion::where(["status"=>1,"user_id"=>auth()->user()->id])->get();
+        $formas=Tipopago::where(["status"=>1])->get();
+        $bancos=Banco::where(["status"=>1])->get();
+
+        $balance=Balance::where([ "status"=>1,"user_id"=>auth()->user()->id])->get();
+        return view('finanzas.compra',['balance'=>$balance,'transacciones'=>$transacciones,'formas'=>$formas,'bancos'=>$bancos]);
 
     }
 

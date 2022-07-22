@@ -60,7 +60,7 @@ class RegisterController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'dni' => ['required', 'string', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'ref' => ['required', 'string', 'max:255', 'exists:users'],
+            'ref' => ['required', 'string', 'max:255', 'exists:users,email'],
             /*'avatar' => ['required', 'image' ,'mimes:jpg,jpeg,png','max:1024'],*/
         ]);
     }
