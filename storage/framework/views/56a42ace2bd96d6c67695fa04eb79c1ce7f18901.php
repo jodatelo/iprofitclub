@@ -1,33 +1,41 @@
-<x-app-layout>
-@section('head')
-<meta name="csrf_token" content="{{ csrf_token() }}" />
-@endsection
-@component('components.breadcrumb')
-@slot('li_1')
+<?php if (isset($component)) { $__componentOriginal8e2ce59650f81721f93fef32250174d77c3531da = $component; } ?>
+<?php $component = $__env->getContainer()->make(App\View\Components\AppLayout::class, [] + (isset($attributes) ? (array) $attributes->getIterator() : [])); ?>
+<?php $component->withName('app-layout'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $constructor = (new ReflectionClass(App\View\Components\AppLayout::class))->getConstructor()): ?>
+<?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
+<?php endif; ?>
+<?php $component->withAttributes([]); ?>
+<?php $__env->startSection('head'); ?>
+<meta name="csrf_token" content="<?php echo e(csrf_token()); ?>" />
+<?php $__env->stopSection(); ?>
+<?php $__env->startComponent('components.breadcrumb'); ?>
+<?php $__env->slot('li_1'); ?>
     Home
-@endslot
-@slot('title')
-    Mis pólizas
-@endslot
-@endcomponent
+<?php $__env->endSlot(); ?>
+<?php $__env->slot('title'); ?>
+    Mis inversiones
+<?php $__env->endSlot(); ?>
+<?php echo $__env->renderComponent(); ?>
 <div class="row">
 <div class="col-12">
     <div class="row">
         <div class="col-xl-3">
             <div class="card card-h-100">
-                @if (\Session::has('msg'))
-                <div class="alert  {!! \Session::get('clase') !!} m-2">
+                <?php if(\Session::has('msg')): ?>
+                <div class="alert  <?php echo \Session::get('clase'); ?> m-2">
                     <ul style="" class="p-0 m-0">
-                        <li style="list-style: none;">{!! \Session::get('msg') !!}</li>
+                        <li style="list-style: none;"><?php echo \Session::get('msg'); ?></li>
                     </ul>
                 </div>
-                @endif
+                <?php endif; ?>
                 <div class="card-body">
-                    @php $disable="disabled" @endphp
-                    @if ($balance->toArray()) @if ($balance[0]->saldo>0) @php $disable="";  $max='max="'.$balance[0]->saldo.'"' @endphp @endif   @endif
+                    <?php $disable="disabled" ?>
+                    <?php if($balance->toArray()): ?> <?php if(@$balance[0]->saldo>0): ?> <?php $disable="";  $max='max="'.$balance[0]->saldo.'"' ?> <?php endif; ?>   <?php endif; ?>
                     
-                    <button class="btn btn-primary w-100" id="btn-new-event" {{$disable}}><i class="mdi mdi-plus"></i>Crear nueva póliza</button>
-                    @if ($disable=="disabled") <div class="external-event fc-event bg-soft-danger text-danger">No tienes saldo</div> @endif
+                    <button class="btn btn-primary w-100" id="btn-new-event" <?php echo e($disable); ?>><i class="mdi mdi-plus"></i>Crear nueva inversión</button>
+                    <?php if($disable=="disabled"): ?> <div class="external-event fc-event bg-soft-danger text-danger">No tienes saldo</div> <?php endif; ?>
                     <div id="external-events">
                         <br>
                         
@@ -49,8 +57,8 @@
                 </div>
             </div>
             <div>
-                <h5 class="mb-1">Lista de pólizas</h5>
-                <p class="text-muted">No hay pólizas</p>
+                <h5 class="mb-1">Lista de inversiones</h5>
+                <p class="text-muted">No hay inversiones</p>
                 <div class="pe-2 me-n1 mb-3" data-simplebar style="height: 400px">
                     <div id="upcoming-event-list"></div>
                 </div>
@@ -142,10 +150,10 @@
                             <div class="col-12">
                                 <div class="mb-3">
                                     <label class="form-label">Valor</label>
-                                    <input class="form-control   col-6"  min="100" <?=$max ?> step="1" placeholder="$ 0.00" type="number"
+                                    <input class="form-control   col-6"  min="100" <?=@$max ?> step="1" placeholder="$ 0.00" type="number"
                                         name="valor" id="valor" required value="" onkeyup="javascript:validarValor(this);" />
-                                    <div class="invalid-feedback">Por favor ingrese el monto de la póliza</div>
-                                    @if ($balance->toArray()) @if ($balance[0]->saldo>0) <div class="external-event fc-event bg-soft-info text-info">Póliza Mínima $100.00, Saldo de su cuenta ${{number_format($balance[0]->saldo,2)}}</div>  @endif   @endif
+                                    <div class="invalid-feedback">Por favor ingrese el monto de la inversión</div>
+                                    <?php if($balance->toArray()): ?> <?php if(@$balance[0]->saldo>0): ?> <div class="external-event fc-event bg-soft-info text-info">inversión Mínima $100.00, Saldo de su cuenta $<?php echo e(number_format($balance[0]->saldo,2)); ?></div>  <?php endif; ?>   <?php endif; ?>
                                     
                                 </div>
                             </div>
@@ -181,8 +189,8 @@
 </div>
 </div> <!-- end row-->
  
-@section('script')
-<script src="{{ URL::asset('assets/libs/fullcalendar/fullcalendar.min.js') }}"></script>
+<?php $__env->startSection('script'); ?>
+<script src="<?php echo e(URL::asset('assets/libs/fullcalendar/fullcalendar.min.js')); ?>"></script>
  <script>
     /*
 Template Name: Velzon - Admin & Dashboard Template
@@ -195,7 +203,8 @@ function validarValor(obj)
 {
     //console.log(document.getElementById("valor").value);
     //console.log('<?=$balance[0]->saldo ?>');
-    var saldomax='<?=$balance[0]->saldo ?>';
+    
+    var saldomax='<?=@$balance[0]->saldo ?>';
     var val=document.getElementById("valor").value;
     val=parseFloat(val)
     saldomax=parseFloat(saldomax)
@@ -522,12 +531,12 @@ document.addEventListener("DOMContentLoaded", function () {
         if (forms[0].checkValidity() === false) {
             forms[0].classList.add('was-validated');
         } else {
-           console.log('{{ csrf_token() }}')
+           console.log('<?php echo e(csrf_token()); ?>')
             $.ajax({
-            url: "{{url('polizas/create')}}",
+            url: "<?php echo e(url('inversiones/create')); ?>",
             dataType: 'json', // what to expect back from the server
          
-            data: {valor:valor,'_method':'PUT','_token': "{{ csrf_token() }}" },
+            data: {valor:valor,'_method':'PUT','_token': "<?php echo e(csrf_token()); ?>" },
             type: 'POST',
 
             success: function(response) {
@@ -704,7 +713,7 @@ function editEvent(data) {
     var data_id = data.getAttribute("data-id");
     if (data_id == 'new-event') {
         document.getElementById('modal-title').innerHTML = "";
-        document.getElementById('modal-title').innerHTML = "Agregar póliza";
+        document.getElementById('modal-title').innerHTML = "Agregar inversión";
         document.getElementById("btn-save-event").innerHTML = "Generar";
         eventTyped();
     } else if (data_id == 'edit-event') {
@@ -843,10 +852,15 @@ var str_dt = function formatDate(date) {
     return [day + " " + month, year].join(',');
 };
     </script>
-<script src="{{ URL::asset('/assets/js/app.min.js') }}"></script>
-@endsection
+<script src="<?php echo e(URL::asset('/assets/js/app.min.js')); ?>"></script>
+<?php $__env->stopSection(); ?>
 <style>
  
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-</x-app-layout>
+ <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal04b5c99f4b0ecb1ac8b6cea23cbf13f14c9909f0)): ?>
+<?php $component = $__componentOriginal04b5c99f4b0ecb1ac8b6cea23cbf13f14c9909f0; ?>
+<?php unset($__componentOriginal04b5c99f4b0ecb1ac8b6cea23cbf13f14c9909f0); ?>
+<?php endif; ?><?php /**PATH C:\xampp\htdocs\iprofitclub\resources\views/inversiones/index.blade.php ENDPATH**/ ?>

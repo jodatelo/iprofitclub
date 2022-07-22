@@ -18,5 +18,6 @@ class DatabaseSeeder extends Seeder
         $this->call(TipopagoSeeder::class);
         $this->call(TipoTransaccionSeeder::class);
         $this->call(MenuSeeder::class);
+        $this->call(BalancesSeeder::class);
     }
 }

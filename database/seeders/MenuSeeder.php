@@ -27,14 +27,14 @@ class MenuSeeder extends Seeder
             'updated_at' => '2022-07-19 19:02:46','link' => '/home'
         ]);
         Menu::create([
-            'id' => '3','parent' => '0','nombre' => 'Pólizas','user_id' => '1',
+            'id' => '3','parent' => '0','nombre' => 'Inversiones','user_id' => '1',
             'icono' => 'las la-briefcase','status' => '1','created_at' => '2022-07-19 19:02:46',
             'updated_at' => '2022-07-19 19:02:46','link' => '#'
         ]);
         Menu::create([
-            'id' => '4','parent' => '3','nombre' => 'Mis Pólizas','user_id' => '1',
+            'id' => '4','parent' => '3','nombre' => 'Mis Inversiones','user_id' => '1',
             'icono' => '','status' => '1','created_at' => '2022-07-19 19:02:46',
-            'updated_at' => '2022-07-19 19:02:46','link' => '/polizas'
+            'updated_at' => '2022-07-19 19:02:46','link' => '/inversiones'
         ]);
         /*Menu::create([
             'id' => '5','parent' => '0','nombre' => 'Intercambios','user_id' => '1',

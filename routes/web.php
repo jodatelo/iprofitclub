@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\FinanzasController;
 use App\Http\Controllers\PatrociniosController;
-use App\Http\Controllers\PolizasController;
+use App\Http\Controllers\InversionesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,10 +38,10 @@ Route::post('/finanzas/comprar',  'App\Http\Controllers\FinanzasController@compr
 Route::get('/patrocinios',  'App\Http\Controllers\PatrociniosController@index')->name('patrocinios.index');
 Route::get('/patrocinios/{id}/cobrar',  'App\Http\Controllers\PatrociniosController@cobrar')->name('patrocinios.cobrar');
 
-Route::resource('/polizas',  PolizasController::class);
+Route::resource('/inversiones',  InversionesController::class);
 
-Route::post('/polizas/create', [App\Http\Controllers\PolizasController::class, 'create'])->name('create');
-Route::get('/polizas/{id}/{inv}/cobrar',  'App\Http\Controllers\PolizasController@cobrar')->name('polizas.cobrar');
+Route::post('/inversiones/create', [App\Http\Controllers\InversionesController::class, 'create'])->name('create');
+Route::get('/inversiones/{id}/{inv}/cobrar',  'App\Http\Controllers\InversionesController@cobrar')->name('polizas.cobrar');
  
  
 //Update User Details

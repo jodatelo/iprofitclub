@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Session;
 
-class PolizasController extends Controller
+class InversionesController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -65,7 +65,7 @@ class PolizasController extends Controller
         }
         //die(var_dump($polizaslista));
          
-        return view('polizas.index',['polizas'=>$polizas,'balance'=>$balance,'polizaslista'=>json_encode($polizaslista)]);
+        return view('inversiones.index',['polizas'=>$polizas,'balance'=>$balance,'polizaslista'=>json_encode($polizaslista)]);
 
     }
     public function create(Request $request)
@@ -119,7 +119,7 @@ class PolizasController extends Controller
         $model->saveOrFail();*/
         /*return redirect()->route('formapago.index')
             ->with('msg','Forma de Pago creado!');*/
-        return redirect()->route('polizas.index')->with(['msg' => "Poliza acreditada con éxito!",'clase' => "bg-soft-success text-success"]);
+        return redirect()->route('inversiones.index')->with(['msg' => "Poliza acreditada con éxito!",'clase' => "bg-soft-success text-success"]);
     }
 
 
