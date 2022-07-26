@@ -159,12 +159,12 @@ class FinanzasController extends Controller
         $compra->statusret=1;
   
 
-        if($request->file('archivo')){
+        /*if($request->file('archivo')){
             $file= $request->file('archivo');
             $filename= date('YmdHi').$file->getClientOriginalName();
             $file-> move(public_path('comprobantes'), $filename);
-            $compra->comprobante= $filename;
-        }
+            //$compra->comprobante= $filename;
+        }*/
 
         if($request->file('cedulafro')){
             $file= $request->file('cedulafro');
@@ -179,7 +179,7 @@ class FinanzasController extends Controller
             $file= $request->file('cedularev');
             $filename= date('YmdHi').$file->getClientOriginalName();
             $file-> move(public_path('cedulas'), $filename);
-            $compra->comprobante= $filename;
+            /*$compra->comprobante= $filename;*/
             $user =Auth::user();
             $user->cedularev=$filename;
             $user->saveOrFail();
@@ -210,7 +210,7 @@ class FinanzasController extends Controller
     {
         
         $formas=Tipopago::where(["status"=>1])->get();
-        $transacciones=Retiro::where(["status"=>1])->get();
+        $transacciones=Retiro::where(["status"=>1,"user_id"=>auth()->user()->id])->get();
         $bancos=Banco::where(["status"=>1])->get();
 
         $balance=Balance::where([ "status"=>1,"user_id"=>auth()->user()->id])->get();

@@ -11,7 +11,7 @@
 <?php endif; ?>
 <?php $component->withAttributes([]); ?>
     <a href="<?php echo e(route('acreditaciones.acreditar')); ?>" class="btn btn-success mb-2">
-        <i class="fas fa-trash">ACREDITAR</i>
+        <i class="fas fa-trash">NUEVA ACREDITACIÓN</i>
     </a>
     <div class="card card-animate p-3">
         
@@ -44,8 +44,8 @@
                 <th width="160px">Accion</th>
             </tr>
             <?php $__currentLoopData = $compras; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                <?php if( $user->statuscomp==1 ): ?> <?php $class="text-success bg-soft-success "; $estatus="ACREDITADA";   ?>  <?php endif; ?>
-                <?php if( $user->statuscomp==2 ): ?> <?php $class="text-danger bg-soft-danger "; $estatus="REVERSADA";   ?>  <?php endif; ?>
+                <?php if( $user->statuscomp==2 ): ?> <?php $class="text-success bg-soft-success "; $estatus="ACREDITADA";   ?>  <?php endif; ?>
+                <?php if( $user->statuscomp==3 ): ?> <?php $class="text-danger bg-soft-danger "; $estatus="REVERSADA";   ?>  <?php endif; ?>
                 
             <tr>
                 <td><?php echo e($user->id); ?></td>
@@ -55,19 +55,10 @@
  
                 <td><span class=" p-2 <?php echo e($class); ?>"><?php echo e($estatus); ?> </span></td>
                 <td>
+                     
                     <?php if( $user->statuscomp==2 ): ?>
-                    <form action="<?php echo e(route('retiros.aceptar',$user->id)); ?>" method="Post">
-                        
-                        <?php echo csrf_field(); ?>
-                        <?php echo method_field('POST'); ?>
-                        <button type="submit" class="btn btn-success">
-                            <i class="fas fa-trash">ACREDITAR</i>
-                        </button>
-                    </form>
-                    <?php endif; ?>
-                    <?php if( $user->statuscomp==1 ): ?>
 
-                    <form action="<?php echo e(route('retiros.eliminar',$user->id)); ?>" method="Post">
+                    <form action="<?php echo e(route('acreditaciones.eliminar',$user->id)); ?>" method="Post">
                         
                         <?php echo csrf_field(); ?>
                         <?php echo method_field('POST'); ?>

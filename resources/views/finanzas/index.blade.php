@@ -145,7 +145,8 @@
                                                                 @if ($transaccion->tipo()->nombre=="INVERSIÓN CAPITAL") @php $class="text-success"; @endphp @endif
                                                                 @if ($transaccion->tipo()->nombre=="INVERSIÓN GANANCIA") @php $class="text-success"; @endphp @endif
                                                                 @if ($transaccion->tipo()->nombre=="RETIRO") @php $class="text-danger"; @endphp @endif
-                                                                @if ($transaccion->tipo()->nombre=="REVERSO") @php $class="text-danger"; @endphp @endif
+                                                                @if ($transaccion->tipo()->nombre=="REVERSO RET") @php $class="text-success"; @endphp @endif
+                                                                @if ($transaccion->tipo()->nombre=="REVERSO ACR") @php $class="text-danger"; @endphp @endif
                                                                 <td>
                                                                     <span class="{{$class}}">{{number_format($transaccion->valor,2)}} </span>
                                                                 </td>
@@ -198,7 +199,8 @@
                                                                 @if ($transaccion->tipo()->nombre=="INVERSIÓN CAPITAL") @php $class="text-success"; @endphp @endif
                                                                 @if ($transaccion->tipo()->nombre=="INVERSIÓN GANANCIA") @php $class="text-success"; @endphp @endif
                                                                 @if ($transaccion->tipo()->nombre=="RETIRO") @php $class="text-danger"; @endphp @endif
-                                                                @if ($transaccion->tipo()->nombre=="REVERSO") @php $class="text-danger"; @endphp @endif
+                                                                @if ($transaccion->tipo()->nombre=="REVERSO RET") @php $class="text-success"; @endphp @endif
+                                                                @if ($transaccion->tipo()->nombre=="REVERSO ACR") @php $class="text-danger"; @endphp @endif
 
                                                                 <td>
                                                                     <span class="{{$class}}">{{number_format($transaccion->valor,2)}} </span>
@@ -252,7 +254,8 @@
                                                                 @if ($transaccion->tipo()->nombre=="INVERSIÓN CAPITAL") @php $class="text-success"; @endphp @endif
                                                                 @if ($transaccion->tipo()->nombre=="INVERSIÓN GANANCIA") @php $class="text-success"; @endphp @endif
                                                                 @if ($transaccion->tipo()->nombre=="RETIRO") @php $class="text-danger"; @endphp @endif
-                                                                @if ($transaccion->tipo()->nombre=="REVERSO") @php $class="text-danger"; @endphp @endif
+                                                                @if ($transaccion->tipo()->nombre=="REVERSO RET") @php $class="text-success"; @endphp @endif
+                                                                @if ($transaccion->tipo()->nombre=="REVERSO ACR") @php $class="text-danger"; @endphp @endif
 
                                                                 <td>
                                                                     <span class="{{$class}}">{{number_format($transaccion->valor,2)}} </span>
@@ -306,7 +309,8 @@
                                                                 @if ($transaccion->tipo()->nombre=="INVERSIÓN CAPITAL") @php $class="text-success"; @endphp @endif
                                                                 @if ($transaccion->tipo()->nombre=="INVERSIÓN GANANCIA") @php $class="text-success"; @endphp @endif
                                                                 @if ($transaccion->tipo()->nombre=="RETIRO") @php $class="text-danger"; @endphp @endif
-                                                                @if ($transaccion->tipo()->nombre=="REVERSO") @php $class="text-danger"; @endphp @endif
+                                                                @if ($transaccion->tipo()->nombre=="REVERSO RET") @php $class="text-success"; @endphp @endif
+                                                                @if ($transaccion->tipo()->nombre=="REVERSO ACR") @php $class="text-danger"; @endphp @endif
 
                                                                 <td>
                                                                     <span class="{{$class}}">{{number_format($transaccion->valor,2)}} </span>

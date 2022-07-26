@@ -13,8 +13,9 @@ class RetirosController extends Controller
 {
     public function index()
     {
-        $compras = Retiro::select('*')->paginate(5);
-        return view('retiros.index', compact('compras'));
+        $retitostrans = Retiro::select('*')->where(['formapago'=>1])->orderBy('created_at', 'DESC')->paginate(20);
+        $retirosbit = Retiro::select('*')->where(['formapago'=>2])->orderBy('created_at', 'DESC')->paginate(20);
+        return view('retiros.index', (['retirostrans'=>$retitostrans,'retirosbit'=>$retirosbit]));
     }
 
     public function destroy(User $user)
@@ -32,7 +33,7 @@ class RetirosController extends Controller
   
         $valtotal=0;
         $valtotal= $valtotal+$retiro[0]->monto;
-        $balanceVal=Balance::where(["user_id"=>auth()->user()->id])->first();
+        $balanceVal=Balance::where(["user_id"=>$retiro[0]->user_id])->first();
         if ($balanceVal->saldo < $valtotal)
         {
             return redirect()->route('retiros.index')->with('danger','Retiro no realizado, monto a retirar supera el balance del cliente!');
@@ -50,10 +51,10 @@ class RetirosController extends Controller
             $transaccion->statustrans=1;
             $transaccion->status=1;
             $transaccion->created_at = $fecha;
-            $transaccion->user_id =auth()->user()->id;
+            $transaccion->user_id =$retiro[0]->user_id;
 
             if ($transaccion->saveOrFail()){
-                $balance=Balance::where([ "status"=>1,"user_id"=>auth()->user()->id])->first();
+                $balance=Balance::where([ "status"=>1,"user_id"=>$retiro[0]->user_id])->first();
                 $balance->saldo=$balance->saldo-$retiro[0]->monto;
                 $balance->saveOrFail();
 
@@ -72,35 +73,41 @@ class RetirosController extends Controller
         ->with('danger','Retiro no realizado!');
     }
 
-    public function eliminar( $id)
+    public function eliminar($id)
     {
 
         $fecha=date('Y-m-d H:i:s');
         $retiro2= Retiro::where(["id"=>$id])->first();
         $retiro= Retiro::where(["id"=>$id])->get();
   
-
+        $statusinit=$retiro2->statusret;
         $retiro2->statusret=3;
         if ($retiro2->saveOrFail()){
-           /* $transaccion = new Transaccion();
-            $transaccion->valor=$retiro[0]->monto;
-            $transaccion->tipotrans=7;
-            $transaccion->tipomov=-1;
-            $transaccion->fechaact=$fecha;
-            $transaccion->userupd_id=0;
-            $transaccion->isDeleted=0;
-            $transaccion->statustrans=1;
-            $transaccion->status=1;
-            $transaccion->created_at = $fecha;
-            $transaccion->user_id =auth()->user()->id;*/
+            if ($statusinit==2){
+                $transaccion = new Transaccion();
+                $transaccion->valor=$retiro[0]->monto;
+                $transaccion->tipotrans=12;
+                $transaccion->tipomov=1;
+                $transaccion->fechaact=$fecha;
+                $transaccion->userupd_id=0;
+                $transaccion->isDeleted=0;
+                $transaccion->statustrans=1;
+                $transaccion->status=1;
+                $transaccion->created_at = $fecha;
+                $transaccion->user_id =$retiro[0]->user_id;
 
-           /* if ($transaccion->saveOrFail()){
-                $balance=Balance::where([ "status"=>1,"user_id"=>$retiro[0]->id])->first();
-                $balance->saldo=$balance->saldo-$retiro[0]->monto;
-                $balance->saveOrFail();*/
+                if ($transaccion->saveOrFail()){
+                    $balance=Balance::where([ "status"=>1,"user_id"=>$retiro[0]->user_id])->first();
+                    $balance->saldo=$balance->saldo+$retiro[0]->monto;
+                    $balance->saveOrFail();
+                }
+            }
+           
 
+           
                 return redirect()->route('retiros.index')
         ->with('success','Retiro anulado!');
+           
           /*  } */
             
         }else{

@@ -152,7 +152,7 @@ unset($__errorArgs, $__bag); ?>
                                     </div>
                                     <div class="col-6 mb-2 ">
                                         <div class="pb-1">Nombre Titular</div>
-                                        <input type="text" id="ntitular" name="ntitular" class="form-control col-12"   value="" placeholder="# 121323233">
+                                        <input type="text" id="ntitular" name="ntitular" class="form-control col-12"   value="" placeholder="EJ: JOSÉ PEREZ">
                                         <?php $__errorArgs = ['ntitular'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -171,7 +171,7 @@ unset($__errorArgs, $__bag); ?>
                                     </div>
                                     <div class="col-6 mb-2 ">
                                         <div class="pb-1">Cédula del titular</div>
-                                        <input type="text" id="ctitular" name="ctitular" class="form-control col-12"   value="" placeholder="# 121323233">
+                                        <input type="text" id="ctitular" name="ctitular" class="form-control col-12"   value="" placeholder="# 0930532611">
                                         <?php $__errorArgs = ['transaccion'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :

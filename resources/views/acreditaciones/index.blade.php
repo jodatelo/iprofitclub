@@ -3,7 +3,7 @@
 
 <x-app-layout>
     <a href="{{route('acreditaciones.acreditar')}}" class="btn btn-success mb-2">
-        <i class="fas fa-trash">ACREDITAR</i>
+        <i class="fas fa-trash">NUEVA ACREDITACIÓN</i>
     </a>
     <div class="card card-animate p-3">
         
@@ -36,8 +36,8 @@
                 <th width="160px">Accion</th>
             </tr>
             @foreach ($compras as $user)
-                @if ( $user->statuscomp==1 ) @php $class="text-success bg-soft-success "; $estatus="ACREDITADA";   @endphp  @endif
-                @if ( $user->statuscomp==2 ) @php $class="text-danger bg-soft-danger "; $estatus="REVERSADA";   @endphp  @endif
+                @if ( $user->statuscomp==2 ) @php $class="text-success bg-soft-success "; $estatus="ACREDITADA";   @endphp  @endif
+                @if ( $user->statuscomp==3 ) @php $class="text-danger bg-soft-danger "; $estatus="REVERSADA";   @endphp  @endif
                 
             <tr>
                 <td>{{ $user->id }}</td>
@@ -47,19 +47,10 @@
  
                 <td><span class=" p-2 {{$class}}">{{ $estatus }} </span></td>
                 <td>
+                     
                     @if ( $user->statuscomp==2 )
-                    <form action="{{ route('retiros.aceptar',$user->id) }}" method="Post">
-                        
-                        @csrf
-                        @method('POST')
-                        <button type="submit" class="btn btn-success">
-                            <i class="fas fa-trash">ACREDITAR</i>
-                        </button>
-                    </form>
-                    @endif
-                    @if ( $user->statuscomp==1 )
 
-                    <form action="{{ route('retiros.eliminar',$user->id) }}" method="Post">
+                    <form action="{{ route('acreditaciones.eliminar',$user->id) }}" method="Post">
                         
                         @csrf
                         @method('POST')

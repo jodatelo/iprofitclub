@@ -87,19 +87,38 @@ class AcreditacionesController extends Controller
         ->with('success','User has been deleted successfully');
     }
 
-    public function aceptar(Compra $id)
+ 
+
+    public function eliminar($id)
     {
+        $fecha=date('Y-m-d H:i:s');
+ 
+        $compra= Compra::where(["id"=>$id])->first();
+        $statusinit=$compra->statuscomp;
         
-        $compra= Compra::where(["id"=>$id])->get();
-        return redirect()->route('acreditaciones.index')
-        ->with('success','Compra acreditada!');
-    }
+        $compra->statuscomp=3;
+        if ($compra->saveOrFail()){
+            if ($statusinit==2){
+                $transaccion = new Transaccion();
+                $transaccion->valor=$compra->monto;
+                $transaccion->tipotrans=13;
+                $transaccion->tipomov=-1;
+                $transaccion->fechaact=$fecha;
+                $transaccion->userupd_id=0;
+                $transaccion->isDeleted=0;
+                $transaccion->statustrans=1;
+                $transaccion->status=1;
+                $transaccion->created_at = $fecha;
+                $transaccion->user_id =$compra->user_id;
+                $transaccion->saveOrFail();
 
-    public function eliminar(Compra $id)
-    {
+                $balance=Balance::where([ "status"=>1,"user_id"=>$compra->user_id])->first();
+                $balance->saldo=$balance->saldo-$compra->monto;
+                $balance->saveOrFail();
+            }
+        }
 
-        $compra= Compra::where(["id"=>$id])->get();
         return redirect()->route('acreditaciones.index')
-        ->with('success','Compra anulada!');
+        ->with('success','Compra reversada!');
     }
 }

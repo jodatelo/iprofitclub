@@ -153,6 +153,8 @@
                                                                 <?php if($transaccion->tipo()->nombre=="INVERSIÓN CAPITAL"): ?> <?php $class="text-success"; ?> <?php endif; ?>
                                                                 <?php if($transaccion->tipo()->nombre=="INVERSIÓN GANANCIA"): ?> <?php $class="text-success"; ?> <?php endif; ?>
                                                                 <?php if($transaccion->tipo()->nombre=="RETIRO"): ?> <?php $class="text-danger"; ?> <?php endif; ?>
+                                                                <?php if($transaccion->tipo()->nombre=="REVERSO RET"): ?> <?php $class="text-success"; ?> <?php endif; ?>
+                                                                <?php if($transaccion->tipo()->nombre=="REVERSO ACR"): ?> <?php $class="text-danger"; ?> <?php endif; ?>
                                                                 <td>
                                                                     <span class="<?php echo e($class); ?>"><?php echo e(number_format($transaccion->valor,2)); ?> </span>
                                                                 </td>
@@ -205,6 +207,9 @@
                                                                 <?php if($transaccion->tipo()->nombre=="INVERSIÓN CAPITAL"): ?> <?php $class="text-success"; ?> <?php endif; ?>
                                                                 <?php if($transaccion->tipo()->nombre=="INVERSIÓN GANANCIA"): ?> <?php $class="text-success"; ?> <?php endif; ?>
                                                                 <?php if($transaccion->tipo()->nombre=="RETIRO"): ?> <?php $class="text-danger"; ?> <?php endif; ?>
+                                                                <?php if($transaccion->tipo()->nombre=="REVERSO RET"): ?> <?php $class="text-success"; ?> <?php endif; ?>
+                                                                <?php if($transaccion->tipo()->nombre=="REVERSO ACR"): ?> <?php $class="text-danger"; ?> <?php endif; ?>
+
                                                                 <td>
                                                                     <span class="<?php echo e($class); ?>"><?php echo e(number_format($transaccion->valor,2)); ?> </span>
                                                                 </td>
@@ -257,6 +262,9 @@
                                                                 <?php if($transaccion->tipo()->nombre=="INVERSIÓN CAPITAL"): ?> <?php $class="text-success"; ?> <?php endif; ?>
                                                                 <?php if($transaccion->tipo()->nombre=="INVERSIÓN GANANCIA"): ?> <?php $class="text-success"; ?> <?php endif; ?>
                                                                 <?php if($transaccion->tipo()->nombre=="RETIRO"): ?> <?php $class="text-danger"; ?> <?php endif; ?>
+                                                                <?php if($transaccion->tipo()->nombre=="REVERSO RET"): ?> <?php $class="text-success"; ?> <?php endif; ?>
+                                                                <?php if($transaccion->tipo()->nombre=="REVERSO ACR"): ?> <?php $class="text-danger"; ?> <?php endif; ?>
+
                                                                 <td>
                                                                     <span class="<?php echo e($class); ?>"><?php echo e(number_format($transaccion->valor,2)); ?> </span>
                                                                 </td>
@@ -309,6 +317,9 @@
                                                                 <?php if($transaccion->tipo()->nombre=="INVERSIÓN CAPITAL"): ?> <?php $class="text-success"; ?> <?php endif; ?>
                                                                 <?php if($transaccion->tipo()->nombre=="INVERSIÓN GANANCIA"): ?> <?php $class="text-success"; ?> <?php endif; ?>
                                                                 <?php if($transaccion->tipo()->nombre=="RETIRO"): ?> <?php $class="text-danger"; ?> <?php endif; ?>
+                                                                <?php if($transaccion->tipo()->nombre=="REVERSO RET"): ?> <?php $class="text-success"; ?> <?php endif; ?>
+                                                                <?php if($transaccion->tipo()->nombre=="REVERSO ACR"): ?> <?php $class="text-danger"; ?> <?php endif; ?>
+
                                                                 <td>
                                                                     <span class="<?php echo e($class); ?>"><?php echo e(number_format($transaccion->valor,2)); ?> </span>
                                                                 </td>
