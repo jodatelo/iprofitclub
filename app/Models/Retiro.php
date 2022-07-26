@@ -17,10 +17,10 @@ class Retiro extends Model
         return $usuario;
     }
 
-    public function banco()
+    public function formap()
     {
         //return $this->belongsTo(Tipo_transaccion::class,'tipotrans');
-        $banco= Banco::where(["id"=>$this->banco_id])->first();
+        $banco= Tipopago::where(["id"=>$this->formapago])->first();
         //(var_dump($this->id));
         return $banco;
     }

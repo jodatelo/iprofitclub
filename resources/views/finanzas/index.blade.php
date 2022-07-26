@@ -26,7 +26,7 @@
                     </div>
                     <div class="d-flex align-items-end justify-content-between mt-4">
                         <div class="col-9">
-                            <h4 class="fs-22 fw-semibold ff-secondary mb-4">$<span class="counter-value" data-target="@if (@$balance->saldo) {{$balance->saldo}} @else 0.00 @endif">@if (@$balance->saldo) {{$balance->saldo}} @else 0.00 @endif</span></h4>
+                            <h4 class="fs-22 fw-semibold ff-secondary mb-4">$ <span class=" "  >@if (@$balance->saldo) {{number_format($balance->saldo,2)}} @else 0.00 @endif</span></h4>
                             
                           
                         </div>
@@ -45,7 +45,7 @@
                     <!--<a class="btn btn-xs btn-outline-primary p-2" target="_blank" href="https://api.whatsapp.com/send?phone=50761741514&text=Deseo%20comprar%20coins%20para%20mi%20cuenta%20iProfit">
                         Comprar
                     </a>&nbsp;&nbsp;&nbsp;-->
-                    <a class="btn btn-xs btn-outline-primary p-2" target="_blank" href="{{ route('finanzas.retiros') }}">
+                    <a class="btn btn-xs btn-outline-primary p-2" href="{{ route('finanzas.retiros') }}">
                         Retirar
                     </a>
                          
@@ -145,6 +145,7 @@
                                                                 @if ($transaccion->tipo()->nombre=="INVERSIÓN CAPITAL") @php $class="text-success"; @endphp @endif
                                                                 @if ($transaccion->tipo()->nombre=="INVERSIÓN GANANCIA") @php $class="text-success"; @endphp @endif
                                                                 @if ($transaccion->tipo()->nombre=="RETIRO") @php $class="text-danger"; @endphp @endif
+                                                                @if ($transaccion->tipo()->nombre=="REVERSO") @php $class="text-danger"; @endphp @endif
                                                                 <td>
                                                                     <span class="{{$class}}">{{number_format($transaccion->valor,2)}} </span>
                                                                 </td>
@@ -197,6 +198,8 @@
                                                                 @if ($transaccion->tipo()->nombre=="INVERSIÓN CAPITAL") @php $class="text-success"; @endphp @endif
                                                                 @if ($transaccion->tipo()->nombre=="INVERSIÓN GANANCIA") @php $class="text-success"; @endphp @endif
                                                                 @if ($transaccion->tipo()->nombre=="RETIRO") @php $class="text-danger"; @endphp @endif
+                                                                @if ($transaccion->tipo()->nombre=="REVERSO") @php $class="text-danger"; @endphp @endif
+
                                                                 <td>
                                                                     <span class="{{$class}}">{{number_format($transaccion->valor,2)}} </span>
                                                                 </td>
@@ -249,6 +252,8 @@
                                                                 @if ($transaccion->tipo()->nombre=="INVERSIÓN CAPITAL") @php $class="text-success"; @endphp @endif
                                                                 @if ($transaccion->tipo()->nombre=="INVERSIÓN GANANCIA") @php $class="text-success"; @endphp @endif
                                                                 @if ($transaccion->tipo()->nombre=="RETIRO") @php $class="text-danger"; @endphp @endif
+                                                                @if ($transaccion->tipo()->nombre=="REVERSO") @php $class="text-danger"; @endphp @endif
+
                                                                 <td>
                                                                     <span class="{{$class}}">{{number_format($transaccion->valor,2)}} </span>
                                                                 </td>
@@ -301,6 +306,8 @@
                                                                 @if ($transaccion->tipo()->nombre=="INVERSIÓN CAPITAL") @php $class="text-success"; @endphp @endif
                                                                 @if ($transaccion->tipo()->nombre=="INVERSIÓN GANANCIA") @php $class="text-success"; @endphp @endif
                                                                 @if ($transaccion->tipo()->nombre=="RETIRO") @php $class="text-danger"; @endphp @endif
+                                                                @if ($transaccion->tipo()->nombre=="REVERSO") @php $class="text-danger"; @endphp @endif
+
                                                                 <td>
                                                                     <span class="{{$class}}">{{number_format($transaccion->valor,2)}} </span>
                                                                 </td>
@@ -329,9 +336,12 @@
             </div>
         </div>
     </div>
+
+</x-app-layout>
 <script>
     window.onload=function() {
         document.getElementById("v-pills-bill-todos").click();
+        console.log("hola")
 		}
+        
     </script>
-</x-app-layout>

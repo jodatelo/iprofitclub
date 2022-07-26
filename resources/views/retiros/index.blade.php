@@ -24,8 +24,15 @@
                 <th>ID</th>
                 <th>Usuario</th>
                 <th>Monto</th>
+                <th>Tipo</th>
                 <th>Banco</th>
-                <th># de Cuenta</th>
+                <th>Tipo de Cta</th>
+                <th># de Cta</th>
+                <th>Nombre Titular</th>
+                <th>Cédula Titular</th>
+                <th>Moneda</th>
+                <th>Red</th>
+                <th>Wallet</th>
                 <th>Cédula Frente</th>
                 <th>Cédula Reverso</th>
                 
@@ -41,8 +48,15 @@
                 <td>{{ $user->usuario()->email }}</td>
 
                 <td>{{ $user->monto }}</td>
-                <td>{{ $user->banco()->nombre }}</td>
-                <td>{{ $user->ntransaccion }}</td>
+                <td>{{ $user->formap()->nombre }}</td>
+                <td>{{ $user->banco }}</td>
+                <td>{{ $user->tipocuenta }}</td>
+                <td>{{ $user->ncuenta }}</td>
+                <td>{{ $user->cedulatit }}</td>
+                <td>{{ $user->nombretit }}</td>
+                <td>{{ $user->moneda }}</td>
+                <td>{{ $user->red }}</td>
+                <td>{{ $user->wallet }}</td>
                 <td><a href="{{ url('cedulas/'.$user->usuario()->cedulafro) }}" target="_blank"><img src="{{ url('cedulas/'.$user->usuario()->cedulafro) }}" style="height: 50px; width: 50px;"></a></td>
                 <td><a href="{{ url('cedulas/'.$user->usuario()->cedulafro) }}" target="_blank"><img src="{{ url('cedulas/'.$user->usuario()->cedularev) }}" style="height: 50px; width: 50px;"></a></td>
  

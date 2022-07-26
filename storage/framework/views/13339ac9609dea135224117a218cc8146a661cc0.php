@@ -39,13 +39,32 @@
                         
                         
                         <div class="col-12">
-                            <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value text-success" data-target="<?php if(@$balance[0]->saldo): ?> <?php echo e($balance[0]->saldo); ?> <?php else: ?> $ 0.00 <?php endif; ?>"><?php if(@$balance[0]->saldo): ?> <?php echo e('$ '.$balance[0]->saldo); ?> <?php else: ?> $ 0.00 <?php endif; ?></span></h4>
+                            <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="  text-success" data-target="<?php if(@$balance[0]->saldo): ?> <?php echo e(number_format($balance[0]->saldo,2)); ?> <?php else: ?> $ 0.00 <?php endif; ?>"><?php if(@$balance[0]->saldo): ?> <?php echo e('$ '.number_format($balance[0]->saldo,2)); ?> <?php else: ?> $ 0.00 <?php endif; ?></span></h4>
                             
                             
                             <div class="row">
                                 <div class="col-6 mb-2">
+                                    <div class="pb-1">Ingresa el monto</div>
+                                    <input type="number" onkeyup="javascript:validarValor(this);" id="monto" name="monto" class="form-control col-12"   value="" placeholder="$ 0.00">
+                                    <?php $__errorArgs = ['monto'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                                        <span class="invalid-feedback" role="alert">
+                                                            <strong><?php echo e($message); ?></strong>
+                                                        </span>
+                                                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                                                    <div class="invalid-feedback">
+                                                        Por favor, ingrese el monto
+                                                    </div>
+                                </div>
+                                <div class="col-6 mb-2">
                                     <div class="pb-1">Forma de pago</div>
-                                    <select  id="forma" name="forma" class="form-control col-12"   value="">
+                                    <select  id="forma" onchange="javascript:tipoPago(this);" name="forma" class="form-control col-12"   value="">
                                         <option select="0">Seleccione</option>
                                         <?php $__currentLoopData = $formas; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $forma): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                             <option value="<?php echo e($forma->id); ?>"><?php echo e($forma->nombre); ?></option>
@@ -67,69 +86,173 @@ unset($__errorArgs, $__bag); ?>
                                                         Por favor, ingrese la forma de pago
                                                     </div>
                                 </div>
-                                
-                                <div class="col-6 mb-2">
-                                    <div class="pb-1">Banco de transferencia</div>
-                                    <select  id="banco" name="banco" class="form-control col-12"   value="">
-                                        <option select="0">Seleccione</option>
-                                        <?php $__currentLoopData = $bancos; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $banco): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                            <option value="<?php echo e($banco->id); ?>"><?php echo e($banco->nombre); ?></option>
-                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                    </select>
-                                    <?php $__errorArgs = ['banco'];
+                               
+                                <div class="row d-none" id="dvTransferencia">
+                                    <div class="p-1">
+                                        <hr>
+                                        </div>
+                                    <div class="col-6 mb-2">
+                                        <div class="pb-1">Banco de transferencia</div>
+                                        <input type="text" id="banco" name="banco" class="form-control col-12"   value="" placeholder="EJ.: BANCO PICHINCHA">
+                                        
+                                        <?php $__errorArgs = ['banco'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?>
-                                                        <span class="invalid-feedback" role="alert">
-                                                            <strong><?php echo e($message); ?></strong>
-                                                        </span>
-                                                    <?php unset($message);
+                                                            <span class="invalid-feedback" role="alert">
+                                                                <strong><?php echo e($message); ?></strong>
+                                                            </span>
+                                                        <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
-                                                    <div class="invalid-feedback">
-                                                        Por favor, ingrese la forma de pago
-                                                    </div>
-                                </div>
-                                <div class="col-6 mb-2 ">
-                                    <div class="pb-1">Número de cuenta</div>
-                                    <input type="number" id="transaccion" name="transaccion" class="form-control col-12"   value="" placeholder="# 121323233">
-                                    <?php $__errorArgs = ['transaccion'];
+                                                        <div class="invalid-feedback">
+                                                            Por favor, ingrese la forma de pago
+                                                        </div>
+                                    </div>
+                                    <div class="col-6 mb-2 ">
+                                        <div class="pb-1">Tipo Cuenta</div>
+                                        <input type="text" id="tcuenta" name="tcuenta" class="form-control col-12"   value="" placeholder="EJ.: CUENTA AHORROS">
+                                        <?php $__errorArgs = ['tcuenta'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?>
-                                                        <span class="invalid-feedback" role="alert">
-                                                            <strong><?php echo e($message); ?></strong>
-                                                        </span>
-                                                    <?php unset($message);
+                                                            <span class="invalid-feedback" role="alert">
+                                                                <strong><?php echo e($message); ?></strong>
+                                                            </span>
+                                                        <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
-                                                    <div class="invalid-feedback">
-                                                        Por favor, ingrese elnúmero de transacción
-                                                    </div>
-                                </div>
-                                <div class="col-6 mb-2">
-                                    <div class="pb-1">Ingresa el monto</div>
-                                    <input type="number" onkeyup="javascript:validarValor(this);" id="monto" name="monto" class="form-control col-12"   value="" placeholder="$ 0.00">
-                                    <?php $__errorArgs = ['monto'];
+                                                        <div class="invalid-feedback">
+                                                            Por favor, ingrese elnúmero de transacción
+                                                        </div>
+                                    </div>
+
+                                    <div class="col-6 mb-2 ">
+                                        <div class="pb-1">Número de cuenta</div>
+                                        <input type="number" id="transaccion" name="transaccion" class="form-control col-12"   value="" placeholder="# 121323233">
+                                        <?php $__errorArgs = ['transaccion'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?>
-                                                        <span class="invalid-feedback" role="alert">
-                                                            <strong><?php echo e($message); ?></strong>
-                                                        </span>
-                                                    <?php unset($message);
+                                                            <span class="invalid-feedback" role="alert">
+                                                                <strong><?php echo e($message); ?></strong>
+                                                            </span>
+                                                        <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
-                                                    <div class="invalid-feedback">
-                                                        Por favor, ingrese el monto
-                                                    </div>
+                                                        <div class="invalid-feedback">
+                                                            Por favor, ingrese el número de cuenta
+                                                        </div>
+                                    </div>
+                                    <div class="col-6 mb-2 ">
+                                        <div class="pb-1">Nombre Titular</div>
+                                        <input type="text" id="ntitular" name="ntitular" class="form-control col-12"   value="" placeholder="# 121323233">
+                                        <?php $__errorArgs = ['ntitular'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                                            <span class="invalid-feedback" role="alert">
+                                                                <strong><?php echo e($message); ?></strong>
+                                                            </span>
+                                                        <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                                                        <div class="invalid-feedback">
+                                                            Por favor, ingrese el nombre del titular
+                                                        </div>
+                                    </div>
+                                    <div class="col-6 mb-2 ">
+                                        <div class="pb-1">Cédula del titular</div>
+                                        <input type="text" id="ctitular" name="ctitular" class="form-control col-12"   value="" placeholder="# 121323233">
+                                        <?php $__errorArgs = ['transaccion'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                                            <span class="invalid-feedback" role="alert">
+                                                                <strong><?php echo e($message); ?></strong>
+                                                            </span>
+                                                        <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                                                        <div class="invalid-feedback">
+                                                            Por favor, ingrese la cédula del titular
+                                                        </div>
+                                    </div>
                                 </div>
+                                <div class="row d-none" id="dvCripto">
+                                    <div class="p-1">
+                                        <hr>
+                                        </div>
+                                    <div class="col-6 mb-2">
+                                        <div class="pb-1">Moneda</div>
+                                        <input type="text" id="moneda" name="moneda" class="form-control col-12"   value="" placeholder="EJ.: DOLAR">
+                                        
+                                        <?php $__errorArgs = ['moneda'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                                            <span class="invalid-feedback" role="alert">
+                                                                <strong><?php echo e($message); ?></strong>
+                                                            </span>
+                                                        <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                                                        <div class="invalid-feedback">
+                                                            Por favor, ingrese la moneda
+                                                        </div>
+                                    </div>
+                                    <div class="col-6 mb-2 ">
+                                        <div class="pb-1">Red</div>
+                                        <input type="text" id="redn" name="redn" class="form-control col-12"   value="" placeholder="">
+                                        <?php $__errorArgs = ['redn'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                                            <span class="invalid-feedback" role="alert">
+                                                                <strong><?php echo e($message); ?></strong>
+                                                            </span>
+                                                        <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                                                        <div class="invalid-feedback">
+                                                            Por favor, ingrese la red
+                                                        </div>
+                                    </div>
+                                    <div class="col-6 mb-2 ">
+                                        <div class="pb-1">Wallet</div>
+                                        <input type="number" id="wallet" name="wallet" class="form-control col-12"   value="" placeholder="# 121323233">
+                                        <?php $__errorArgs = ['transaccion'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                                            <span class="invalid-feedback" role="alert">
+                                                                <strong><?php echo e($message); ?></strong>
+                                                            </span>
+                                                        <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                                                        <div class="invalid-feedback">
+                                                            Por favor, ingrese el wallet
+                                                        </div>
+                                    </div>
+                                </div>
+                               
                                 <div class="col-6 mb-2 d-none">
                                     <div class="pb-1">Foto / Comprobante</div>
                                     <input type="file" id="archivo" name="archivo" class="form-control col-12"   value="" placeholder="$ 0.00">
@@ -472,30 +595,42 @@ unset($__errorArgs, $__bag); ?>
 
 
     </div>
-    <script>
-        window.onload=function() {
-            document.getElementById("v-pills-bill-todos").click();
-            }
-
-            function validarValor(obj)
-{
-    //console.log(document.getElementById("valor").value);
-    //console.log('<?=$balance[0]->saldo ?>');
-    
-    var saldomax='<?=@$balance[0]->saldo ?>';
-    var val=document.getElementById("monto").value;
-    val=parseFloat(val)
-    saldomax=parseFloat(saldomax)
- 
-    if (val>saldomax)
-    {
-        document.getElementById("monto").value=saldomax ;
-    }
-}
-        </script>
+   
  <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginal8e2ce59650f81721f93fef32250174d77c3531da)): ?>
 <?php $component = $__componentOriginal8e2ce59650f81721f93fef32250174d77c3531da; ?>
 <?php unset($__componentOriginal8e2ce59650f81721f93fef32250174d77c3531da); ?>
-<?php endif; ?><?php /**PATH C:\xampp\htdocs\iprofitclub\resources\views/finanzas/compra.blade.php ENDPATH**/ ?>
+<?php endif; ?>
+<script>
+    window.onload=function() {
+        document.getElementById("v-pills-bill-todos").click();
+        }
+
+        function validarValor(obj)
+{
+//console.log(document.getElementById("valor").value);
+//console.log('<?=$balance[0]->saldo ?>');
+
+var saldomax='<?=@$balance[0]->saldo ?>';
+var val=document.getElementById("monto").value;
+val=parseFloat(val)
+saldomax=parseFloat(saldomax)
+
+if (val>saldomax)
+{
+    document.getElementById("monto").value=saldomax ;
+}
+}
+function tipoPago(id)
+{
+    if (document.getElementById("forma").value==1){
+        document.getElementById("dvCripto").style="display:none !important;"
+        document.getElementById("dvTransferencia").style="display:flex !important;"
+    }
+    if (document.getElementById("forma").value==2){
+        document.getElementById("dvTransferencia").style="display:none !important;"
+        document.getElementById("dvCripto").style="display:flex !important;"
+    }
+}
+    </script><?php /**PATH C:\xampp\htdocs\iprofitclub\resources\views/finanzas/compra.blade.php ENDPATH**/ ?>

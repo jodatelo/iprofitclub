@@ -65,5 +65,16 @@ class TipoTransaccionSeeder extends Seeder
             'isDeleted' => 0,'status' => '1','created_at' => '2022-07-19 19:02:46',
             'updated_at' => '2022-07-19 19:02:46',
         ]);
+
+        Tipo_transaccion::create([
+            'id' => '11','nombre' => 'RETIRO','tipomov' => '-1','user_id' => '1',
+            'isDeleted' => 0,'status' => '1','created_at' => '2022-07-19 19:02:46',
+            'updated_at' => '2022-07-19 19:02:46',
+        ]);
+        Tipo_transaccion::create([
+            'id' => '12','nombre' => 'REVERSO','tipomov' => '-1','user_id' => '1',
+            'isDeleted' => 0,'status' => '1','created_at' => '2022-07-19 19:02:46',
+            'updated_at' => '2022-07-19 19:02:46',
+        ]);
     }
 }

@@ -31,13 +31,25 @@
                         
                         
                         <div class="col-12">
-                            <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value text-success" data-target="@if (@$balance[0]->saldo) {{$balance[0]->saldo}} @else $ 0.00 @endif">@if (@$balance[0]->saldo) {{'$ '.$balance[0]->saldo}} @else $ 0.00 @endif</span></h4>
+                            <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="  text-success" data-target="@if (@$balance[0]->saldo) {{number_format($balance[0]->saldo,2)}} @else $ 0.00 @endif">@if (@$balance[0]->saldo) {{'$ '.number_format($balance[0]->saldo,2)}} @else $ 0.00 @endif</span></h4>
                             
                             
                             <div class="row">
                                 <div class="col-6 mb-2">
+                                    <div class="pb-1">Ingresa el monto</div>
+                                    <input type="number" onkeyup="javascript:validarValor(this);" id="monto" name="monto" class="form-control col-12"   value="" placeholder="$ 0.00">
+                                    @error('monto')
+                                                        <span class="invalid-feedback" role="alert">
+                                                            <strong>{{ $message }}</strong>
+                                                        </span>
+                                                    @enderror
+                                                    <div class="invalid-feedback">
+                                                        Por favor, ingrese el monto
+                                                    </div>
+                                </div>
+                                <div class="col-6 mb-2">
                                     <div class="pb-1">Forma de pago</div>
-                                    <select  id="forma" name="forma" class="form-control col-12"   value="">
+                                    <select  id="forma" onchange="javascript:tipoPago(this);" name="forma" class="form-control col-12"   value="">
                                         <option select="0">Seleccione</option>
                                         @foreach ( $formas as $forma )
                                             <option value="{{$forma->id}}">{{$forma->nombre}}</option>
@@ -52,48 +64,117 @@
                                                         Por favor, ingrese la forma de pago
                                                     </div>
                                 </div>
-                                
-                                <div class="col-6 mb-2">
-                                    <div class="pb-1">Banco de transferencia</div>
-                                    <select  id="banco" name="banco" class="form-control col-12"   value="">
-                                        <option select="0">Seleccione</option>
-                                        @foreach ( $bancos as $banco )
-                                            <option value="{{$banco->id}}">{{$banco->nombre}}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('banco')
-                                                        <span class="invalid-feedback" role="alert">
-                                                            <strong>{{ $message }}</strong>
-                                                        </span>
-                                                    @enderror
-                                                    <div class="invalid-feedback">
-                                                        Por favor, ingrese la forma de pago
-                                                    </div>
+                               
+                                <div class="row d-none" id="dvTransferencia">
+                                    <div class="p-1">
+                                        <hr>
+                                        </div>
+                                    <div class="col-6 mb-2">
+                                        <div class="pb-1">Banco de transferencia</div>
+                                        <input type="text" id="banco" name="banco" class="form-control col-12"   value="" placeholder="EJ.: BANCO PICHINCHA">
+                                        
+                                        @error('banco')
+                                                            <span class="invalid-feedback" role="alert">
+                                                                <strong>{{ $message }}</strong>
+                                                            </span>
+                                                        @enderror
+                                                        <div class="invalid-feedback">
+                                                            Por favor, ingrese la forma de pago
+                                                        </div>
+                                    </div>
+                                    <div class="col-6 mb-2 ">
+                                        <div class="pb-1">Tipo Cuenta</div>
+                                        <input type="text" id="tcuenta" name="tcuenta" class="form-control col-12"   value="" placeholder="EJ.: CUENTA AHORROS">
+                                        @error('tcuenta')
+                                                            <span class="invalid-feedback" role="alert">
+                                                                <strong>{{ $message }}</strong>
+                                                            </span>
+                                                        @enderror
+                                                        <div class="invalid-feedback">
+                                                            Por favor, ingrese elnúmero de transacción
+                                                        </div>
+                                    </div>
+
+                                    <div class="col-6 mb-2 ">
+                                        <div class="pb-1">Número de cuenta</div>
+                                        <input type="number" id="transaccion" name="transaccion" class="form-control col-12"   value="" placeholder="# 121323233">
+                                        @error('transaccion')
+                                                            <span class="invalid-feedback" role="alert">
+                                                                <strong>{{ $message }}</strong>
+                                                            </span>
+                                                        @enderror
+                                                        <div class="invalid-feedback">
+                                                            Por favor, ingrese el número de cuenta
+                                                        </div>
+                                    </div>
+                                    <div class="col-6 mb-2 ">
+                                        <div class="pb-1">Nombre Titular</div>
+                                        <input type="text" id="ntitular" name="ntitular" class="form-control col-12"   value="" placeholder="EJ: JOSÉ PEREZ">
+                                        @error('ntitular')
+                                                            <span class="invalid-feedback" role="alert">
+                                                                <strong>{{ $message }}</strong>
+                                                            </span>
+                                                        @enderror
+                                                        <div class="invalid-feedback">
+                                                            Por favor, ingrese el nombre del titular
+                                                        </div>
+                                    </div>
+                                    <div class="col-6 mb-2 ">
+                                        <div class="pb-1">Cédula del titular</div>
+                                        <input type="text" id="ctitular" name="ctitular" class="form-control col-12"   value="" placeholder="# 0930532611">
+                                        @error('transaccion')
+                                                            <span class="invalid-feedback" role="alert">
+                                                                <strong>{{ $message }}</strong>
+                                                            </span>
+                                                        @enderror
+                                                        <div class="invalid-feedback">
+                                                            Por favor, ingrese la cédula del titular
+                                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-6 mb-2 ">
-                                    <div class="pb-1">Número de cuenta</div>
-                                    <input type="number" id="transaccion" name="transaccion" class="form-control col-12"   value="" placeholder="# 121323233">
-                                    @error('transaccion')
-                                                        <span class="invalid-feedback" role="alert">
-                                                            <strong>{{ $message }}</strong>
-                                                        </span>
-                                                    @enderror
-                                                    <div class="invalid-feedback">
-                                                        Por favor, ingrese elnúmero de transacción
-                                                    </div>
+                                <div class="row d-none" id="dvCripto">
+                                    <div class="p-1">
+                                        <hr>
+                                        </div>
+                                    <div class="col-6 mb-2">
+                                        <div class="pb-1">Moneda</div>
+                                        <input type="text" id="moneda" name="moneda" class="form-control col-12"   value="" placeholder="EJ.: DOLAR">
+                                        
+                                        @error('moneda')
+                                                            <span class="invalid-feedback" role="alert">
+                                                                <strong>{{ $message }}</strong>
+                                                            </span>
+                                                        @enderror
+                                                        <div class="invalid-feedback">
+                                                            Por favor, ingrese la moneda
+                                                        </div>
+                                    </div>
+                                    <div class="col-6 mb-2 ">
+                                        <div class="pb-1">Red</div>
+                                        <input type="text" id="redn" name="redn" class="form-control col-12"   value="" placeholder="">
+                                        @error('redn')
+                                                            <span class="invalid-feedback" role="alert">
+                                                                <strong>{{ $message }}</strong>
+                                                            </span>
+                                                        @enderror
+                                                        <div class="invalid-feedback">
+                                                            Por favor, ingrese la red
+                                                        </div>
+                                    </div>
+                                    <div class="col-6 mb-2 ">
+                                        <div class="pb-1">Wallet</div>
+                                        <input type="number" id="wallet" name="wallet" class="form-control col-12"   value="" placeholder="# 121323233">
+                                        @error('transaccion')
+                                                            <span class="invalid-feedback" role="alert">
+                                                                <strong>{{ $message }}</strong>
+                                                            </span>
+                                                        @enderror
+                                                        <div class="invalid-feedback">
+                                                            Por favor, ingrese el wallet
+                                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-6 mb-2">
-                                    <div class="pb-1">Ingresa el monto</div>
-                                    <input type="number" onkeyup="javascript:validarValor(this);" id="monto" name="monto" class="form-control col-12"   value="" placeholder="$ 0.00">
-                                    @error('monto')
-                                                        <span class="invalid-feedback" role="alert">
-                                                            <strong>{{ $message }}</strong>
-                                                        </span>
-                                                    @enderror
-                                                    <div class="invalid-feedback">
-                                                        Por favor, ingrese el monto
-                                                    </div>
-                                </div>
+                               
                                 <div class="col-6 mb-2 d-none">
                                     <div class="pb-1">Foto / Comprobante</div>
                                     <input type="file" id="archivo" name="archivo" class="form-control col-12"   value="" placeholder="$ 0.00">
@@ -415,25 +496,37 @@
 
 
     </div>
-    <script>
-        window.onload=function() {
-            document.getElementById("v-pills-bill-todos").click();
-            }
+   
+</x-app-layout>
+<script>
+    window.onload=function() {
+        document.getElementById("v-pills-bill-todos").click();
+        }
 
-            function validarValor(obj)
+        function validarValor(obj)
 {
-    //console.log(document.getElementById("valor").value);
-    //console.log('<?=$balance[0]->saldo ?>');
-    
-    var saldomax='<?=@$balance[0]->saldo ?>';
-    var val=document.getElementById("monto").value;
-    val=parseFloat(val)
-    saldomax=parseFloat(saldomax)
- 
-    if (val>saldomax)
-    {
-        document.getElementById("monto").value=saldomax ;
+//console.log(document.getElementById("valor").value);
+//console.log('<?=$balance[0]->saldo ?>');
+
+var saldomax='<?=@$balance[0]->saldo ?>';
+var val=document.getElementById("monto").value;
+val=parseFloat(val)
+saldomax=parseFloat(saldomax)
+
+if (val>saldomax)
+{
+    document.getElementById("monto").value=saldomax ;
+}
+}
+function tipoPago(id)
+{
+    if (document.getElementById("forma").value==1){
+        document.getElementById("dvCripto").style="display:none !important;"
+        document.getElementById("dvTransferencia").style="display:flex !important;"
+    }
+    if (document.getElementById("forma").value==2){
+        document.getElementById("dvTransferencia").style="display:none !important;"
+        document.getElementById("dvCripto").style="display:flex !important;"
     }
 }
-        </script>
-</x-app-layout>
+    </script>

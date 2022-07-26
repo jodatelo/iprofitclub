@@ -32,8 +32,15 @@
                 <th>ID</th>
                 <th>Usuario</th>
                 <th>Monto</th>
+                <th>Tipo</th>
                 <th>Banco</th>
-                <th># de Cuenta</th>
+                <th>Tipo de Cta</th>
+                <th># de Cta</th>
+                <th>Nombre Titular</th>
+                <th>Cédula Titular</th>
+                <th>Moneda</th>
+                <th>Red</th>
+                <th>Wallet</th>
                 <th>Cédula Frente</th>
                 <th>Cédula Reverso</th>
                 
@@ -49,8 +56,15 @@
                 <td><?php echo e($user->usuario()->email); ?></td>
 
                 <td><?php echo e($user->monto); ?></td>
-                <td><?php echo e($user->banco()->nombre); ?></td>
-                <td><?php echo e($user->ntransaccion); ?></td>
+                <td><?php echo e($user->formap()->nombre); ?></td>
+                <td><?php echo e($user->banco); ?></td>
+                <td><?php echo e($user->tipocuenta); ?></td>
+                <td><?php echo e($user->ncuenta); ?></td>
+                <td><?php echo e($user->cedulatit); ?></td>
+                <td><?php echo e($user->nombretit); ?></td>
+                <td><?php echo e($user->moneda); ?></td>
+                <td><?php echo e($user->red); ?></td>
+                <td><?php echo e($user->wallet); ?></td>
                 <td><a href="<?php echo e(url('cedulas/'.$user->usuario()->cedulafro)); ?>" target="_blank"><img src="<?php echo e(url('cedulas/'.$user->usuario()->cedulafro)); ?>" style="height: 50px; width: 50px;"></a></td>
                 <td><a href="<?php echo e(url('cedulas/'.$user->usuario()->cedulafro)); ?>" target="_blank"><img src="<?php echo e(url('cedulas/'.$user->usuario()->cedularev)); ?>" style="height: 50px; width: 50px;"></a></td>
  

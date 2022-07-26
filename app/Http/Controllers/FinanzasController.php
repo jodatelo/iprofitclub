@@ -52,6 +52,7 @@ class FinanzasController extends Controller
         
         if (!$user->toArray()){
             return redirect()->back()->with(['msg' => "El correo ingresado no existe!",'clase' => "bg-soft-danger text-danger"]);
+          
         } 
             $transaccion = new Transaccion();
             $transaccion->valor=$request->monto;
@@ -98,19 +99,32 @@ class FinanzasController extends Controller
     {
         $fecha=date('Y-m-d H:i:s');
 
-        if (!$request->monto || !$request->transaccion || $request->transaccion==0 ){
-            return redirect()->route('finanzas.retiros')->with(['msg' => "Faltan campos requeridos!",'clase' => "bg-soft-danger text-danger"]);
+        if (!$request->monto || $request->forma==0){
+            return redirect()->back()->with(['msg' => "Faltan campos requeridos!",'clase' => "bg-soft-danger text-danger"]);
         }
+
+        if ($request->forma==1){
+            if (!$request->banco || !$request->tcuenta || !$request->transaccion || !$request->banco || !$request->ntitular || !$request->ctitular){
+                return redirect()->back()->with(['msg' => "Faltan campos requeridos para la forma de pago!",'clase' => "bg-soft-danger text-danger"]);
+            }
+        }
+
+        if ($request->forma==2){
+            if (!$request->moneda || !$request->redn || !$request->wallet){
+                return redirect()->back()->with(['msg' => "Faltan campos requeridos para la forma de pago!",'clase' => "bg-soft-danger text-danger"]);
+            }
+        }
+
 
         if (auth()->user()->cedulafro="" && $request->file('cedulafro'))
         {
-            return redirect()->route('finanzas.retiros')->with(['msg' => "Debe ingresar la foto de la cédula!",'clase' => "bg-soft-danger text-danger"]);
+            return redirect()->back()->with(['msg' => "Debe ingresar la foto de la cédula!",'clase' => "bg-soft-danger text-danger"]);
 
         }
 
         if (auth()->user()->cedularev="" && $request->file('cedularev'))
         {
-            return redirect()->route('finanzas.retiros')->with(['msg' => "Debe ingresar la foto de la cédula!",'clase' => "bg-soft-danger text-danger"]);
+            return redirect()->back()->with(['msg' => "Debe ingresar la foto de la cédula!",'clase' => "bg-soft-danger text-danger"]);
 
         }
 
@@ -123,14 +137,25 @@ class FinanzasController extends Controller
         $balanceVal=Balance::where(["user_id"=>auth()->user()->id])->first();
         if ($balanceVal->saldo < $valtotal)
         {
-            return redirect()->route('finanzas.retiros')->with(['msg' => "Hay valores de retiro pendiente que superan su saldo!",'clase' => "bg-soft-danger text-danger"]);    
+            return redirect()->back()->with(['msg' => "Hay valores de retiro pendiente que superan su saldo!",'clase' => "bg-soft-danger text-danger"]);    
         }
    
 
         $compra= new Retiro;
         $compra->monto=$request->monto;
-        $compra->banco_id=$request->banco;
-        $compra->ncuenta=$request->transaccion;
+        $compra->formapago=$request->forma;
+        if ($request->forma==1){
+            $compra->banco=$request->banco;
+            $compra->ncuenta=$request->transaccion;
+            $compra->tipocuenta=$request->tcuenta;
+            $compra->cedulatit=$request->ctitular;
+            $compra->nombretit=$request->ntitular;
+        }
+        if ($request->forma==2){
+            $compra->moneda=$request->moneda;
+            $compra->red=$request->redn;
+            $compra->wallet=$request->wallet;
+        }
         $compra->statusret=1;
   
 
@@ -171,7 +196,7 @@ class FinanzasController extends Controller
             return redirect()->route('finanzas.retiros')->with(['msg' => "Solicitud de retiro generada con éxito!",'clase' => "bg-soft-success text-success"]);
 
         }
-        return redirect()->route('finanzas.retiros')->with(['msg' => "Error al generar la solicitud de retiro!",'clase' => "bg-soft-danger text-danger"]);
+        return redirect()->back()->with(['msg' => "Error al generar la solicitud de retiro!",'clase' => "bg-soft-danger text-danger"]);
     }
    
     public function enviar()

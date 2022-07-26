@@ -34,7 +34,7 @@
                     </div>
                     <div class="d-flex align-items-end justify-content-between mt-4">
                         <div class="col-9">
-                            <h4 class="fs-22 fw-semibold ff-secondary mb-4">$<span class="counter-value" data-target="<?php if(@$balance->saldo): ?> <?php echo e($balance->saldo); ?> <?php else: ?> 0.00 <?php endif; ?>"><?php if(@$balance->saldo): ?> <?php echo e($balance->saldo); ?> <?php else: ?> 0.00 <?php endif; ?></span></h4>
+                            <h4 class="fs-22 fw-semibold ff-secondary mb-4">$ <span class=" "  ><?php if(@$balance->saldo): ?> <?php echo e(number_format($balance->saldo,2)); ?> <?php else: ?> 0.00 <?php endif; ?></span></h4>
                             
                           
                         </div>
@@ -53,7 +53,7 @@
                     <!--<a class="btn btn-xs btn-outline-primary p-2" target="_blank" href="https://api.whatsapp.com/send?phone=50761741514&text=Deseo%20comprar%20coins%20para%20mi%20cuenta%20iProfit">
                         Comprar
                     </a>&nbsp;&nbsp;&nbsp;-->
-                    <a class="btn btn-xs btn-outline-primary p-2" target="_blank" href="<?php echo e(route('finanzas.retiros')); ?>">
+                    <a class="btn btn-xs btn-outline-primary p-2" href="<?php echo e(route('finanzas.retiros')); ?>">
                         Retirar
                     </a>
                          
@@ -337,14 +337,17 @@
             </div>
         </div>
     </div>
-<script>
-    window.onload=function() {
-        document.getElementById("v-pills-bill-todos").click();
-		}
-    </script>
+
  <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginal8e2ce59650f81721f93fef32250174d77c3531da)): ?>
 <?php $component = $__componentOriginal8e2ce59650f81721f93fef32250174d77c3531da; ?>
 <?php unset($__componentOriginal8e2ce59650f81721f93fef32250174d77c3531da); ?>
-<?php endif; ?><?php /**PATH C:\xampp\htdocs\iprofitclub\resources\views/finanzas/index.blade.php ENDPATH**/ ?>
+<?php endif; ?>
+<script>
+    window.onload=function() {
+        document.getElementById("v-pills-bill-todos").click();
+        console.log("hola")
+		}
+        
+    </script><?php /**PATH C:\xampp\htdocs\iprofitclub\resources\views/finanzas/index.blade.php ENDPATH**/ ?>

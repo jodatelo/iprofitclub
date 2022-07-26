@@ -47,7 +47,7 @@
                     <div class="d-flex align-items-end justify-content-between mt-4">
                         <div class="col-9">
                             <div class="pb-1">Ingresa el monto</div>
-                            <input type="number" id="monto" name="monto" class="form-control col-10"   value="" placeholder="$ 0.00">
+                            <input type="number" id="monto" onkeyup="javascript:validarValor(this);" name="monto" class="form-control col-10"   value="" placeholder="$ 0.00">
                             <?php $__errorArgs = ['monto'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -95,7 +95,23 @@ unset($__errorArgs, $__bag); ?>
     -->
    
     </div>
-     
+     <script>
+        function validarValor(obj)
+{
+    //console.log(document.getElementById("valor").value);
+    //console.log('<?=$balance[0]->saldo ?>');
+    
+    var saldomax='<?=@$balance[0]->saldo ?>';
+    var val=document.getElementById("monto").value;
+    val=parseFloat(val)
+    saldomax=parseFloat(saldomax)
+  
+    if (val>saldomax)
+    {
+        document.getElementById("monto").value=saldomax ;
+    }
+}
+     </script>
  <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginal8e2ce59650f81721f93fef32250174d77c3531da)): ?>
