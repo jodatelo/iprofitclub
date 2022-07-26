@@ -34,7 +34,7 @@ class PatrociniosController extends Controller
     {
          
         //$balance=Balance::where([ "status"=>1,"user_id"=>auth()->user()->id])->first();
-        $patrocinio=Referido::where(["status"=>1,"user_id"=>auth()->user()->id])->get();
+        $patrocinio=Referido::where(["status"=>1,"user_id"=>auth()->user()->id])->orderBy('created_at', 'DESC')->get();
         //die(var_dump($patrocinio));
          
         return view('patrocinio.index',['patrocinios'=>$patrocinio]);

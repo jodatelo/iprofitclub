@@ -1,3 +1,4 @@
+@section('title', "Mis inversiones")
 <x-app-layout>
 @section('head')
 <meta name="csrf_token" content="{{ csrf_token() }}" />
@@ -576,7 +577,7 @@ document.addEventListener("DOMContentLoaded", function () {
             } else {
                 var newEvent = {
                     id: e_id,
-                    title: 'Poliza #'+eventid+" ($"+valor+")",
+                    title: 'Inversión #'+eventid+" ($"+valor+")",
                     start: start_date,
                      
                     allDay: true,
@@ -589,7 +590,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 newEvent = {
                     id: e_id+1,
-                    title: 'Poliza #'+eventid+" | Inversion ($"+valor+")",
+                    title: 'Inversión #'+eventid+" | Inversion ($"+valor+")",
                     start: inversion_date,
                      
                     allDay: true,
@@ -602,7 +603,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 newEvent = {
                     id: e_id+1,
-                    title: 'Poliza #'+eventid+" | Ganancia ($"+valor+")",
+                    title: 'Inversión #'+eventid+" | Ganancia ($"+valor+")",
                     start: ganancia_date,
                      
                     allDay: true,
@@ -790,7 +791,7 @@ console.log(element);
 console.log(element.tipo);
 console.log(element.cobrada);
 boton="";
-if(element.tipo==2 || element.tipo==3){ if (element.accion==1){ boton="<hr class=''></hr><div class='text-center'><a href='/polizas/"+element.idpoliza+"/"+element.tipo+"/cobrar' class='btn btn-success p-1 pl-2 pr-2'>Cobrar</a></div>";  }else{
+if(element.tipo==2 || element.tipo==3){ if (element.accion==1){ boton="<hr class=''></hr><div class='text-center'><a href='/inversiones/"+element.idpoliza+"/"+element.tipo+"/cobrar' class='btn btn-success p-1 pl-2 pr-2'>Cobrar</a></div>";  }else{
     boton="<hr class=''></hr><div class='text-center'><button class='btn btn-secondary p-1 pl-2 pr-2' disabled>No disponible</button></div>";
 }
 
@@ -850,4 +851,8 @@ var str_dt = function formatDate(date) {
  
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        document.querySelector(".hamburger-icon").classList.remove("open");
+
+    </script>
 </x-app-layout>

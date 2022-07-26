@@ -48,19 +48,19 @@ class InversionesController extends Controller
             
             $accion=false;
             $cobrada=false;
-            array_push($polizaslista,["id"=>$pl->id,"title"=>"Poliza #".$pl->id." ($".number_format($pl->valor,2).")","start"=>date_format($date,"Y-m-d"),"className"=>"bg-soft-info","allDay"=>true,"status"=>$pl->status,"tipo"=>"1","accion"=>$accion,"cobrada"=>$cobrada,"idpoliza"=>$pl->id]);
+            array_push($polizaslista,["id"=>$pl->id,"title"=>"Inversión #".$pl->id." ($".number_format($pl->valor,2).")","start"=>date_format($date,"Y-m-d"),"className"=>"bg-soft-info","allDay"=>true,"status"=>$pl->status,"tipo"=>"1","accion"=>$accion,"cobrada"=>$cobrada,"idpoliza"=>$pl->id]);
 
             if (date("Y-m-d",strtotime($pl->fechainversion."+ 15 days")) <= date('Y-m-d')){ $accion=true; }
-            echo $pl->statusi;
+            //echo $pl->statusi;
             if($pl->statusi==1){ $cobrada=true; }
-            array_push($polizaslista,["id"=>$pl->id+1,"title"=>"Poliza #".$pl->id." | Inversion ($".number_format($pl->valor,2).")","start"=>date_format($dateinv,"Y-m-d"),"className"=>"bg-soft-warning ","allDay"=>true,"status"=>$pl->status,"tipo"=>"2","accion"=>$accion,"cobrada"=>$cobrada,"idpoliza"=>$pl->id]);
+            array_push($polizaslista,["id"=>$pl->id+1,"title"=>"Inversión #".$pl->id." | Inversion ($".number_format($pl->valor,2).")","start"=>date_format($dateinv,"Y-m-d"),"className"=>"bg-soft-warning ","allDay"=>true,"status"=>$pl->status,"tipo"=>"2","accion"=>$accion,"cobrada"=>$cobrada,"idpoliza"=>$pl->id]);
             
             $accion=false;
             $cobrada=false;
 
             if (date("Y-m-d",strtotime($pl->fechainversion."+ 30 days")) <= date('Y-m-d')){ $accion=true; }
             if($pl->statusg==1){ $cobrada=true; }
-            array_push($polizaslista,["id"=>$pl->id+2,"title"=>"Poliza #".$pl->id." | Ganancia ($".number_format(($pl->valor*(($pl->valorinteres/100)+1)-$pl->valor),2).")","start"=>date_format($dategan,"Y-m-d"),"className"=>"bg-soft-success","allDay"=>true,"status"=>$pl->status,"tipo"=>"3","accion"=>$accion,"cobrada"=>$cobrada,"idpoliza"=>$pl->id]);
+            array_push($polizaslista,["id"=>$pl->id+2,"title"=>"Inversión #".$pl->id." | Ganancia ($".number_format(($pl->valor*(($pl->valorinteres/100)+1)-$pl->valor),2).")","start"=>date_format($dategan,"Y-m-d"),"className"=>"bg-soft-success","allDay"=>true,"status"=>$pl->status,"tipo"=>"3","accion"=>$accion,"cobrada"=>$cobrada,"idpoliza"=>$pl->id]);
         
         }
         //die(var_dump($polizaslista));
@@ -119,7 +119,7 @@ class InversionesController extends Controller
         $model->saveOrFail();*/
         /*return redirect()->route('formapago.index')
             ->with('msg','Forma de Pago creado!');*/
-        return redirect()->route('inversiones.index')->with(['msg' => "Poliza acreditada con éxito!",'clase' => "bg-soft-success text-success"]);
+        return redirect()->route('inversiones.index')->with(['msg' => "Inversión acreditada con éxito!",'clase' => "bg-soft-success text-success"]);
     }
 
 

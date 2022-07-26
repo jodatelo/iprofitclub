@@ -6,6 +6,8 @@ use App\Models\User;
 use App\Models\Balance;
 use App\Models\Transaccion;
 use App\Models\Finanzas;
+use App\Models\Compra;
+use App\Models\Retiro;
 use App\Models\Banco;
 use App\Models\Tipopago;
 use Illuminate\Support\Facades\Auth;
@@ -35,7 +37,7 @@ class FinanzasController extends Controller
     {
          
         $balance=Balance::where([ "status"=>1,"user_id"=>auth()->user()->id])->first();
-        $transacciones=Transaccion::where(["status"=>1,"user_id"=>auth()->user()->id])->get();
+        $transacciones=Transaccion::where(["status"=>1,"user_id"=>auth()->user()->id])->orderBy('created_at', 'DESC')->get();
         //die(var_dump($transacciones));
          
         return view('finanzas.index',['balance'=>$balance,'transacciones'=>$transacciones]);
@@ -92,7 +94,85 @@ class FinanzasController extends Controller
     }
 
     
+    public function solicitar(Request $request)
+    {
+        $fecha=date('Y-m-d H:i:s');
 
+        if (!$request->monto || !$request->transaccion || $request->transaccion==0 ){
+            return redirect()->route('finanzas.retiros')->with(['msg' => "Faltan campos requeridos!",'clase' => "bg-soft-danger text-danger"]);
+        }
+
+        if (auth()->user()->cedulafro="" && $request->file('cedulafro'))
+        {
+            return redirect()->route('finanzas.retiros')->with(['msg' => "Debe ingresar la foto de la cédula!",'clase' => "bg-soft-danger text-danger"]);
+
+        }
+
+        if (auth()->user()->cedularev="" && $request->file('cedularev'))
+        {
+            return redirect()->route('finanzas.retiros')->with(['msg' => "Debe ingresar la foto de la cédula!",'clase' => "bg-soft-danger text-danger"]);
+
+        }
+
+        $retiros= Retiro::where(["user_id"=>auth()->user()->id,'statusret'=>1])->get();
+        $valtotal=0;
+        foreach ($retiros as $key => $value) {
+            $valtotal= $valtotal+$value->monto;
+        }
+        $valtotal= $valtotal+$request->monto;
+        $balanceVal=Balance::where(["user_id"=>auth()->user()->id])->first();
+        if ($balanceVal->saldo < $valtotal)
+        {
+            return redirect()->route('finanzas.retiros')->with(['msg' => "Hay valores de retiro pendiente que superan su saldo!",'clase' => "bg-soft-danger text-danger"]);    
+        }
+   
+
+        $compra= new Retiro;
+        $compra->monto=$request->monto;
+        $compra->banco_id=$request->banco;
+        $compra->ncuenta=$request->transaccion;
+        $compra->statusret=1;
+  
+
+        if($request->file('archivo')){
+            $file= $request->file('archivo');
+            $filename= date('YmdHi').$file->getClientOriginalName();
+            $file-> move(public_path('comprobantes'), $filename);
+            $compra->comprobante= $filename;
+        }
+
+        if($request->file('cedulafro')){
+            $file= $request->file('cedulafro');
+            $filename= date('YmdHi').$file->getClientOriginalName();
+            $file-> move(public_path('cedulas'), $filename);
+            $user =Auth::user();
+            $user->cedulafro=$filename;
+            $user->saveOrFail();
+        }
+
+        if($request->file('cedularev')){
+            $file= $request->file('cedularev');
+            $filename= date('YmdHi').$file->getClientOriginalName();
+            $file-> move(public_path('cedulas'), $filename);
+            $compra->comprobante= $filename;
+            $user =Auth::user();
+            $user->cedularev=$filename;
+            $user->saveOrFail();
+        }
+
+        $compra->user_id=auth()->user()->id;
+        $compra->userapr_id=0;
+        $compra->isDeleted=0;
+        $compra->status=1;
+        $compra->created_at=$fecha;
+
+
+        if ($compra->saveOrFail()){
+            return redirect()->route('finanzas.retiros')->with(['msg' => "Solicitud de retiro generada con éxito!",'clase' => "bg-soft-success text-success"]);
+
+        }
+        return redirect()->route('finanzas.retiros')->with(['msg' => "Error al generar la solicitud de retiro!",'clase' => "bg-soft-danger text-danger"]);
+    }
    
     public function enviar()
     {
@@ -101,10 +181,11 @@ class FinanzasController extends Controller
 
     }
 
-    public function compras()
+    public function retiros()
     {
-        $transacciones=Transaccion::where(["status"=>1,"user_id"=>auth()->user()->id])->get();
+        
         $formas=Tipopago::where(["status"=>1])->get();
+        $transacciones=Retiro::where(["status"=>1])->get();
         $bancos=Banco::where(["status"=>1])->get();
 
         $balance=Balance::where([ "status"=>1,"user_id"=>auth()->user()->id])->get();
@@ -134,78 +215,5 @@ echo 'O1!!!';
         }
     }
 
-    public function updateProfile(Request $request, $id)
-    {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email'],
-            'avatar' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:1024'],
-        ]);
-
-        $user = User::find($id);
-        $user->name = $request->get('name');
-        $user->email = $request->get('email');
-
-        if ($request->file('avatar')) {
-            $avatar = $request->file('avatar');
-            $avatarName = time() . '.' . $avatar->getClientOriginalExtension();
-            $avatarPath = public_path('/images/');
-            $avatar->move($avatarPath, $avatarName);
-            $user->avatar =  $avatarName;
-        }
-
-        $user->update();
-        if ($user) {
-            Session::flash('message', 'User Details Updated successfully!');
-            Session::flash('alert-class', 'alert-success');
-            // return response()->json([
-            //     'isSuccess' => true,
-            //     'Message' => "User Details Updated successfully!"
-            // ], 200); // Status code here
-            return redirect()->back();
-        } else {
-            Session::flash('message', 'Something went wrong!');
-            Session::flash('alert-class', 'alert-danger');
-            // return response()->json([
-            //     'isSuccess' => true,
-            //     'Message' => "Something went wrong!"
-            // ], 200); // Status code here
-            return redirect()->back();
-
-        }
-    }
-
-    public function updatePassword(Request $request, $id)
-    {
-        $request->validate([
-            'current_password' => ['required', 'string'],
-            'password' => ['required', 'string', 'min:6', 'confirmed'],
-        ]);
-
-        if (!(Hash::check($request->get('current_password'), Auth::user()->password))) {
-            return response()->json([
-                'isSuccess' => false,
-                'Message' => "Your Current password does not matches with the password you provided. Please try again."
-            ], 200); // Status code
-        } else {
-            $user = User::find($id);
-            $user->password = Hash::make($request->get('password'));
-            $user->update();
-            if ($user) {
-                Session::flash('message', 'Password updated successfully!');
-                Session::flash('alert-class', 'alert-success');
-                return response()->json([
-                    'isSuccess' => true,
-                    'Message' => "Password updated successfully!"
-                ], 200); // Status code here
-            } else {
-                Session::flash('message', 'Something went wrong!');
-                Session::flash('alert-class', 'alert-danger');
-                return response()->json([
-                    'isSuccess' => true,
-                    'Message' => "Something went wrong!"
-                ], 200); // Status code here
-            }
-        }
-    }
+     
 }

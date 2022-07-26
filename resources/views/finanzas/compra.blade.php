@@ -1,7 +1,8 @@
+@section('title', "Retiros")
 <x-app-layout>
     <div class="row">
          
-        <p class="text-uppercase fw-medium text-muted mb-0 pb-2" style="color:black !important">COMPRAR SALDO</p>
+        <p class="text-uppercase fw-medium text-muted mb-0 pb-2" style="color:black !important">RETIRAR SALDO</p>
 
         <div class="col-xl-8 col-md-10">
             <!-- card -->
@@ -51,18 +52,7 @@
                                                         Por favor, ingrese la forma de pago
                                                     </div>
                                 </div>
-                                <div class="col-6 mb-2">
-                                    <div class="pb-1">Número de transacción</div>
-                                    <input type="number" id="transaccion" name="transaccion" class="form-control col-12"   value="" placeholder="# 121323233">
-                                    @error('transaccion')
-                                                        <span class="invalid-feedback" role="alert">
-                                                            <strong>{{ $message }}</strong>
-                                                        </span>
-                                                    @enderror
-                                                    <div class="invalid-feedback">
-                                                        Por favor, ingrese elnúmero de transacción
-                                                    </div>
-                                </div>
+                                
                                 <div class="col-6 mb-2">
                                     <div class="pb-1">Banco de transferencia</div>
                                     <select  id="banco" name="banco" class="form-control col-12"   value="">
@@ -80,9 +70,21 @@
                                                         Por favor, ingrese la forma de pago
                                                     </div>
                                 </div>
+                                <div class="col-6 mb-2 ">
+                                    <div class="pb-1">Número de cuenta</div>
+                                    <input type="number" id="transaccion" name="transaccion" class="form-control col-12"   value="" placeholder="# 121323233">
+                                    @error('transaccion')
+                                                        <span class="invalid-feedback" role="alert">
+                                                            <strong>{{ $message }}</strong>
+                                                        </span>
+                                                    @enderror
+                                                    <div class="invalid-feedback">
+                                                        Por favor, ingrese elnúmero de transacción
+                                                    </div>
+                                </div>
                                 <div class="col-6 mb-2">
                                     <div class="pb-1">Ingresa el monto</div>
-                                    <input type="number" id="monto" name="monto" class="form-control col-12"   value="" placeholder="$ 0.00">
+                                    <input type="number" onkeyup="javascript:validarValor(this);" id="monto" name="monto" class="form-control col-12"   value="" placeholder="$ 0.00">
                                     @error('monto')
                                                         <span class="invalid-feedback" role="alert">
                                                             <strong>{{ $message }}</strong>
@@ -92,18 +94,52 @@
                                                         Por favor, ingrese el monto
                                                     </div>
                                 </div>
-                                <div class="col-6 mb-2">
+                                <div class="col-6 mb-2 d-none">
                                     <div class="pb-1">Foto / Comprobante</div>
                                     <input type="file" id="archivo" name="archivo" class="form-control col-12"   value="" placeholder="$ 0.00">
                                     @error('archivo')
-                                                        <span class="invalid-feedback" role="alert">
-                                                            <strong>{{ $message }}</strong>
-                                                        </span>
-                                                    @enderror
-                                                    <div class="invalid-feedback">
-                                                        Por favor, ingrese el monto
-                                                    </div>
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                    <div class="invalid-feedback">
+                                        Por favor, ingrese el monto
+                                    </div>
                                 </div>
+                                <div class="col-6 mb-2">
+                                </div>
+                                @if (!auth()->user()->cedulafro)
+                                    <hr>
+                                    <div class="col-12 mb-2">
+                                        <span><b>¿Es tu primer retiro?</b></span>
+                                    </div>
+                                    <div class="col-6 mb-2">
+                                        <div class="pb-1">Foto de tu cédula de frente</div>
+                                        <img class="col-12 mb-2" src="/images/cedulafrente.png" />
+                                        <input type="file" id="cedulafro" name="cedulafro" class="form-control col-12"   value="" placeholder="$ 0.00">
+                                        @error('cedulafro')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
+                                        <div class="invalid-feedback">
+                                            Por favor, ingrese la foto 
+                                        </div>
+                                    </div>
+                                    <div class="col-6 mb-2">
+                                        <div class="pb-1">Foto del reverso de tu cédula</div>
+                                        <img class="col-12 mb-2" src="/images/cedulareverso.png" />
+                                        <input type="file" id="cedularev" name="cedularev" class="form-control col-12"   value="" placeholder="$ 0.00">
+                                        @error('cedularev')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                        <div class="invalid-feedback">
+                                            Por favor, ingrese la foto 
+                                        </div>
+                                    </div>
+                                @endif
                             </div>
                             
                                                       
@@ -134,7 +170,7 @@
        
         <div class="card">
             <div class="card-header">
-                <h4 class="card-title mb-0">Compras</h4>
+                <h4 class="card-title mb-0">Retiros</h4>
             </div><!-- end card header -->
             <div class="card-body form-steps">
                 <form class="vertical-navs-step">
@@ -165,7 +201,7 @@
                                 <button class="nav-link " id="v-pills-bill-ventas" data-bs-toggle="pill" data-bs-target="#v-pills-ventas" type="button" role="tab" aria-controls="v-pills-ventas" aria-selected="false" data-position="1">
                                     <span class="step-title me-2">
                                         <i class="mdi mdi-arrow-right step-icon me-2"></i>
-                                        RECHAZADOS
+                                        NEGADOS
                                     </span>
                                      
                                 </button>
@@ -188,38 +224,31 @@
                                                         <tr>
                                                             <th scope="col">ID</th>
                                                             <th scope="col">Fecha</th>
-                                                            <th scope="col">Tipo</th>
                                                             <th scope="col">Monto</th>
+                                                            <th scope="col">Estatus</th>
                                           
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        @php $class=""; @endphp
                                                         @if ($transacciones->toArray())  
                                                         @foreach ($transacciones as $transaccion )
+                                                             
+                                                            @php $reg=true; @$status="" @endphp
                                                             <tr>
                                                                 <td>{{$transaccion->id}}</td>
                                                                 <td>{{date_format($transaccion->created_at,"Y/m/d H:i:s")}}</td>
-                                                                <td>{{$transaccion->tipo()->nombre}}</td>
-                                                                @if ($transaccion->tipo()->nombre=="COMPRA") @php $class="text-success"; @endphp @endif
-                                                                @if ($transaccion->tipo()->nombre=="VENTA") @php $class="text-danger"; @endphp @endif
-                                                                @if ($transaccion->tipo()->nombre=="POLIZA") @php $class="text-danger"; @endphp @endif
-                                                                @if ($transaccion->tipo()->nombre=="SPONSORSHIP") @php $class="text-success"; @endphp @endif
-                                                                @if ($transaccion->tipo()->nombre=="TRANSFERENCIA") @php $class="text-danger"; @endphp @endif
-                                                                @if ($transaccion->tipo()->nombre=="INTERESES") @php $class="text-success"; @endphp @endif
-                                                                @if ($transaccion->tipo()->nombre=="ENVIO") @php $class="text-danger"; @endphp @endif
-                                                                @if ($transaccion->tipo()->nombre=="RECIBIDO") @php $class="text-success"; @endphp @endif
-                                                                @if ($transaccion->tipo()->nombre=="INVERSION POLIZA") @php $class="text-success"; @endphp @endif
-                                                                @if ($transaccion->tipo()->nombre=="GANANCIA POLIZA") @php $class="text-success"; @endphp @endif
-                                                                <td>
-                                                                    <span class="{{$class}}">{{number_format($transaccion->valor,2)}} </span>
-                                                                </td>
+                                                                @if ($transaccion->statusret==1) @php $class="text-info"; @$status="PENDIENTE" @endphp @endif
+                                                                @if ($transaccion->statusret==2) @php $class="text-success"; @$status="APROBADO" @endphp @endif
+                                                                @if ($transaccion->statusret==3) @php $class="text-danger"; @$status="NEGADO" @endphp @endif
                                                                 
-                                                            </tr><!-- end tr -->
-                                                             
+                                                                <td>
+                                                                    <span class="{{$class}}">{{number_format($transaccion->monto,2)}} </span>
+                                                                </td>
+                                                                <td><span class="{{$class}}">{{$status}}</span></td>
+                                                                
                                                         @endforeach
                                                         @else
-                                                            @php $error='<span class="p-2">No hay transacciones disponibles</span><br><br>'; @endphp
+                                                            @php if($reg==false) { $error='<span class="p-2">No hay transacciones disponibles</span><br><br>'; } @endphp
                                                         @endif
                                                         
                                                        
@@ -238,94 +267,36 @@
                                                         <tr>
                                                             <th scope="col">ID</th>
                                                             <th scope="col">Fecha</th>
-                                                            <th scope="col">Tipo</th>
                                                             <th scope="col">Monto</th>
+                                                            <th scope="col">Estatus</th>
                                           
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        @php $error=""; $reg=false; @endphp
                                                         @if ($transacciones->toArray())  
+                                                        @php $reg=false; @$status="" @endphp
                                                         @foreach ($transacciones as $transaccion )
-                                                            @if ($transaccion->tipo()->nombre=="VENTA" || $transaccion->tipo()->nombre=="POLIZA"  || $transaccion->tipo()->nombre=="TRANSFERENCIA" )  
-                                                            @php $reg=true; @endphp
+                                                            @if ($transaccion->statusret==1)  
+                                                            @php $reg=true;  @endphp
                                                             <tr>
                                                                 <td>{{$transaccion->id}}</td>
                                                                 <td>{{date_format($transaccion->created_at,"Y/m/d H:i:s")}}</td>
-                                                                <td>{{$transaccion->tipo()->nombre}}</td>
-                                                                @if ($transaccion->tipo()->nombre=="COMPRA") @php $class="text-success"; @endphp @endif
-                                                                @if ($transaccion->tipo()->nombre=="VENTA") @php $class="text-danger"; @endphp @endif
-                                                                @if ($transaccion->tipo()->nombre=="POLIZA") @php $class="text-danger"; @endphp @endif
-                                                                @if ($transaccion->tipo()->nombre=="SPONSORSHIP") @php $class="text-success"; @endphp @endif
-                                                                @if ($transaccion->tipo()->nombre=="TRANSFERENCIA") @php $class="text-danger"; @endphp @endif
-                                                                @if ($transaccion->tipo()->nombre=="INTERESES") @php $class="text-success"; @endphp @endif
-                                                                @if ($transaccion->tipo()->nombre=="ENVIO") @php $class="text-danger"; @endphp @endif
-                                                                @if ($transaccion->tipo()->nombre=="RECIBIDO") @php $class="text-success"; @endphp @endif
-                                                                @if ($transaccion->tipo()->nombre=="INVERSION POLIZA") @php $class="text-success"; @endphp @endif
-                                                                @if ($transaccion->tipo()->nombre=="GANANCIA POLIZA") @php $class="text-success"; @endphp @endif
-
-                                                                <td>
-                                                                    <span class="{{$class}}">{{number_format($transaccion->valor,2)}} </span>
-                                                                </td>
+                                                                @if ($transaccion->statusret==1) @php $class="text-info"; @$status="PENDIENTE" @endphp @endif
+                                                                @if ($transaccion->statusret==2) @php $class="text-success"; @$status="APROBADO" @endphp @endif
+                                                                @if ($transaccion->statusret==3) @php $class="text-danger"; @$status="NEGADO" @endphp @endif
                                                                 
-                                                            </tr><!-- end tr -->
-                                                           @endif
-                                                        @endforeach
-                                                        @else
-                                                            @php if($reg==false) { $error='<span class="p-2">No hay transacciones disponibles</span><br><br>'; } @endphp
-                                                        @endif
-                                                        
-                                                       
-                                                    </tbody><!-- end tbody -->
-                                                </table><!-- end table -->
-                                                @php echo $error @endphp
-                                            </div>
-                                        </div>
-                                    </div>
-                                    @php $error=""; $reg=false; @endphp
-                                    <div class="tab-pane fade" id="v-pills-ventas" role="tabpanel" aria-labelledby="v-pills-ventas">
-                                        <div class="text-center pt-4 pb-2">
-                                            <div class="table-responsive table-card">
-                                                <table class="table table-borderless table-centered align-middle table-nowrap mb-0">
-                                                    <thead class="text-muted table-light">
-                                                        <tr>
-                                                            <th scope="col">ID</th>
-                                                            <th scope="col">Fecha</th>
-                                                            <th scope="col">Tipo</th>
-                                                            <th scope="col">Monto</th>
-                                          
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        @if ($transacciones->toArray())  
-                                                        @foreach ($transacciones as $transaccion )
-                                                            @if ($transaccion->tipo()->nombre=="VENTA")  
-                                                            @php $reg=true; @endphp
-                                                            <tr>
-                                                                <td>{{$transaccion->id}}</td>
-                                                                <td>{{date_format($transaccion->created_at,"Y/m/d H:i:s")}}</td>
-                                                                <td>{{$transaccion->tipo()->nombre}}</td>
-                                                                @if ($transaccion->tipo()->nombre=="COMPRA") @php $class="text-success"; @endphp @endif
-                                                                @if ($transaccion->tipo()->nombre=="VENTA") @php $class="text-danger"; @endphp @endif
-                                                                @if ($transaccion->tipo()->nombre=="POLIZA") @php $class="text-danger"; @endphp @endif
-                                                                @if ($transaccion->tipo()->nombre=="SPONSORSHIP") @php $class="text-success"; @endphp @endif
-                                                                @if ($transaccion->tipo()->nombre=="TRANSFERENCIA") @php $class="text-danger"; @endphp @endif
-                                                                @if ($transaccion->tipo()->nombre=="INTERESES") @php $class="text-success"; @endphp @endif
-                                                                @if ($transaccion->tipo()->nombre=="ENVIO") @php $class="text-danger"; @endphp @endif
-                                                                @if ($transaccion->tipo()->nombre=="RECIBIDO") @php $class="text-success"; @endphp @endif
-                                                                @if ($transaccion->tipo()->nombre=="INVERSION POLIZA") @php $class="text-success"; @endphp @endif
-                                                                @if ($transaccion->tipo()->nombre=="GANANCIA POLIZA") @php $class="text-success"; @endphp @endif
                                                                 <td>
-                                                                    <span class="{{$class}}">{{number_format($transaccion->valor,2)}} </span>
+                                                                    <span class="{{$class}}">{{number_format($transaccion->monto,2)}} </span>
                                                                 </td>
+                                                                <td><span class="{{$class}}">{{$status}}</span></td>
                                                                 
                                                                 @else
-                                                                @php $error='<span class="p-2">No hay transacciones disponibles</span><br><br>'; @endphp
+                                                        
                                                             @endif
                                                         @endforeach
-                                                        @else
-                                                            @php if($reg==false) { $error='<span class="p-2">No hay transacciones disponibles</span><br><br>'; } @endphp
+                                                        
                                                         @endif
+                                                        @php if($reg==false) { $error='<span class="p-2">No hay transacciones disponibles</span><br><br>'; } @endphp
                                                         
                                                        
                                                     </tbody><!-- end tbody -->
@@ -343,39 +314,80 @@
                                                         <tr>
                                                             <th scope="col">ID</th>
                                                             <th scope="col">Fecha</th>
-                                                            <th scope="col">Tipo</th>
                                                             <th scope="col">Monto</th>
+                                                            <th scope="col">Estatus</th>
                                           
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         @if ($transacciones->toArray())  
                                                         @foreach ($transacciones as $transaccion )
-                                                            @if ($transaccion->tipo()->nombre=="COMPRA" || $transaccion->tipo()->nombre=="SPONSORSHIP"  || $transaccion->tipo()->nombre=="INTERESES" )  
-                                                            @php $reg=true; @endphp
+                                                        @php $reg=true; @$status="" @endphp
+                                                            @if ($transaccion->statusret==2)  
+                                                            @php $reg=true;  @endphp
                                                             <tr>
                                                                 <td>{{$transaccion->id}}</td>
                                                                 <td>{{date_format($transaccion->created_at,"Y/m/d H:i:s")}}</td>
-                                                                <td>{{$transaccion->tipo()->nombre}}</td>
-                                                                @if ($transaccion->tipo()->nombre=="COMPRA") @php $class="text-success"; @endphp @endif
-                                                                @if ($transaccion->tipo()->nombre=="VENTA") @php $class="text-danger"; @endphp @endif
-                                                                @if ($transaccion->tipo()->nombre=="POLIZA") @php $class="text-danger"; @endphp @endif
-                                                                @if ($transaccion->tipo()->nombre=="SPONSORSHIP") @php $class="text-success"; @endphp @endif
-                                                                @if ($transaccion->tipo()->nombre=="TRANSFERENCIA") @php $class="text-danger"; @endphp @endif
-                                                                @if ($transaccion->tipo()->nombre=="INTERESES") @php $class="text-success"; @endphp @endif
-                                                                @if ($transaccion->tipo()->nombre=="INVERSION POLIZA") @php $class="text-success"; @endphp @endif
-                                                                @if ($transaccion->tipo()->nombre=="GANANCIA POLIZA") @php $class="text-success"; @endphp @endif
+                                                                @if ($transaccion->statusret==1) @php $class="text-info"; @$status="PENDIENTE" @endphp @endif
+                                                                @if ($transaccion->statusret==2) @php $class="text-success"; @$status="APROBADO" @endphp @endif
+                                                                @if ($transaccion->statusret==3) @php $class="text-danger"; @$status="NEGADO" @endphp @endif
+                                                                
                                                                 <td>
-                                                                    <span class="{{$class}}">{{number_format($transaccion->valor,2)}} </span>
+                                                                    <span class="{{$class}}">{{number_format($transaccion->monto,2)}} </span>
                                                                 </td>
+                                                                <td><span class="{{$class}}">{{$status}}</span></td>
                                                                 
                                                                 @else
-                                                                @php if($reg==false) { $error='<span class="p-2">No hay transacciones disponibles</span><br><br>'; } @endphp
+                                                 
                                                             @endif
                                                         @endforeach
-                                                        @else
-                                                            @php $error='<span class="p-2">No hay transacciones disponibles</span><br><br>'; @endphp
+                                                    @endif
+                                                    @php if($reg==false) { $error='<span class="p-2">No hay transacciones disponibles</span><br><br>'; } @endphp       
+                                                       
+                                                    </tbody><!-- end tbody -->
+                                                </table><!-- end table -->
+                                                @php echo $error @endphp
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    @php $error=""; $reg=false; @endphp
+                                    <div class="tab-pane fade" id="v-pills-ventas" role="tabpanel" aria-labelledby="v-pills-ventas">
+                                        <div class="text-center pt-4 pb-2">
+                                            <div class="table-responsive table-card">
+                                                <table class="table table-borderless table-centered align-middle table-nowrap mb-0">
+                                                    <thead class="text-muted table-light">
+                                                        <tr>
+                                                            <th scope="col">ID</th>
+                                                            <th scope="col">Fecha</th>
+                                                            <th scope="col">Monto</th>
+                                                            <th scope="col">Estatus</th>
+                                          
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @if ($transacciones->toArray())  
+                                                        @php $reg=false; @$status="" @endphp
+                                                        @foreach ($transacciones as $transaccion )
+                                                        @if ($transaccion->statusret==3)  
+                                                            @php $reg=true;  @endphp
+                                                            <tr>
+                                                                <td>{{$transaccion->id}}</td>
+                                                                <td>{{date_format($transaccion->created_at,"Y/m/d H:i:s")}}</td>
+                                                                @if ($transaccion->statusret==1) @php $class="text-info"; @$status="PENDIENTE" @endphp @endif
+                                                                @if ($transaccion->statusret==2) @php $class="text-success"; @$status="APROBADO" @endphp @endif
+                                                                @if ($transaccion->statusret==3) @php $class="text-danger"; @$status="NEGADO" @endphp @endif
+                                                                
+                                                                <td>
+                                                                    <span class="{{$class}}">{{number_format($transaccion->monto,2)}} </span>
+                                                                </td>
+                                                                <td><span class="{{$class}}">{{$status}}</span></td>
+                                                               
+                                                               
+                                                            @endif
+                                                        @endforeach
                                                         @endif
+                                                        @php if($reg==false) { $error='<span class="p-2">No hay transacciones disponibles</span><br><br>'; } @endphp
                                                         
                                                        
                                                     </tbody><!-- end tbody -->
@@ -384,7 +396,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- end tab pane -->
+                                     
                                 </div>
                                 <!-- end tab content -->
                             </div>
@@ -403,5 +415,25 @@
 
 
     </div>
-     
+    <script>
+        window.onload=function() {
+            document.getElementById("v-pills-bill-todos").click();
+            }
+
+            function validarValor(obj)
+{
+    //console.log(document.getElementById("valor").value);
+    //console.log('<?=$balance[0]->saldo ?>');
+    
+    var saldomax='<?=@$balance[0]->saldo ?>';
+    var val=document.getElementById("monto").value;
+    val=parseFloat(val)
+    saldomax=parseFloat(saldomax)
+ 
+    if (val>saldomax)
+    {
+        document.getElementById("monto").value=saldomax ;
+    }
+}
+        </script>
 </x-app-layout>

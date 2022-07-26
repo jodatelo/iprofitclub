@@ -24,10 +24,14 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->text('avatar')->nullable();
             $table->string('ref')->nullable();
+            $table->string('cedulafro')->nullable();
+            $table->string('cedularev')->nullable();
+            $table->string('isAdmin')->default(0);
             $table->rememberToken();
+            $table->boolean('status')->default(1);
             $table->timestamps();
         });
-        User::create(['name' => 'admin','email' => 'info@iprofit.club','dni' => '0999','password' => Hash::make('123456'),'email_verified_at'=>'2022-01-02 17:04:59','avatar' => 'avatar-1.jpg','ref' => 'info@iprofit.club','created_at' => now(),]);
+        User::create(['name' => 'admin','email' => 'info@iprofit.club','status'=>1,'isAdmin'=>1,'dni' => '0999','password' => Hash::make('123456'),'email_verified_at'=>'2022-01-02 17:04:59','avatar' => 'avatar-1.jpg','ref' => 'info@iprofit.club','created_at' => now(),]);
     }
     /**
      * Reverse the migrations.

@@ -1,3 +1,4 @@
+<?php $__env->startSection('title', "Mis Movimientos"); ?>
 <?php if (isset($component)) { $__componentOriginal8e2ce59650f81721f93fef32250174d77c3531da = $component; } ?>
 <?php $component = $__env->getContainer()->make(App\View\Components\AppLayout::class, [] + (isset($attributes) ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('app-layout'); ?>
@@ -35,7 +36,7 @@
                         <div class="col-9">
                             <h4 class="fs-22 fw-semibold ff-secondary mb-4">$<span class="counter-value" data-target="<?php if(@$balance->saldo): ?> <?php echo e($balance->saldo); ?> <?php else: ?> 0.00 <?php endif; ?>"><?php if(@$balance->saldo): ?> <?php echo e($balance->saldo); ?> <?php else: ?> 0.00 <?php endif; ?></span></h4>
                             
-                            <input type="text" class="form-control col-10" id="basiInput" value="http://127.0.0.1:8000/register/<?php echo e(auth()->user()->email); ?>" disabled>
+                          
                         </div>
                         <div class="avatar-sm flex-shrink-0">
                             <span class="avatar-title bg-soft-primary rounded fs-3">
@@ -49,10 +50,11 @@
                     <a class="btn btn-xs btn-outline-primary p-2" href="<?php echo e(route('finanzas.enviar')); ?>">
                         Enviar
                     </a>&nbsp;&nbsp;&nbsp;
-                    <!--<a class="btn btn-xs btn-outline-primary p-2" target="_blank" href="https://api.whatsapp.com/send?phone=50761741514&text=Deseo%20comprar%20coins%20para%20mi%20cuenta%20iProfit">-->
-
-                    <a class="btn btn-xs btn-outline-primary p-2" target="_blank" href="<?php echo e(route('finanzas.compras')); ?>">
+                    <!--<a class="btn btn-xs btn-outline-primary p-2" target="_blank" href="https://api.whatsapp.com/send?phone=50761741514&text=Deseo%20comprar%20coins%20para%20mi%20cuenta%20iProfit">
                         Comprar
+                    </a>&nbsp;&nbsp;&nbsp;-->
+                    <a class="btn btn-xs btn-outline-primary p-2" target="_blank" href="<?php echo e(route('finanzas.retiros')); ?>">
+                        Retirar
                     </a>
                          
                    
@@ -71,7 +73,7 @@
     -->
         <div class="card">
             <div class="card-header">
-                <h4 class="card-title mb-0">Últimos movimientos</h4>
+                <h4 class="card-title mb-0">Movimientos</h4>
             </div><!-- end card header -->
             <div class="card-body form-steps">
                 <form class="vertical-navs-step">
@@ -92,17 +94,17 @@
                                     </span>
                                      
                                 </button>
-                                <button class="nav-link " id="v-pills-bill-compras" data-bs-toggle="pill" data-bs-target="#v-pills-compras" type="button" role="tab" aria-controls="v-pills-compras" aria-selected="false" data-position="1">
-                                    <span class="step-title me-2">
-                                        <i class="mdi mdi-arrow-right step-icon me-2"></i>
-                                        COMPRAS
-                                    </span>
-                                     
-                                </button>
                                 <button class="nav-link " id="v-pills-bill-ventas" data-bs-toggle="pill" data-bs-target="#v-pills-ventas" type="button" role="tab" aria-controls="v-pills-ventas" aria-selected="false" data-position="1">
+                                <span class="step-title me-2">
+                                    <i class="mdi mdi-arrow-right step-icon me-2"></i>
+                                    ENVÍOS
+                                </span>
+                                
+                            </button>
+                                    <button class="nav-link " id="v-pills-bill-compras" data-bs-toggle="pill" data-bs-target="#v-pills-compras" type="button" role="tab" aria-controls="v-pills-compras" aria-selected="false" data-position="1">
                                     <span class="step-title me-2">
                                         <i class="mdi mdi-arrow-right step-icon me-2"></i>
-                                        VENTAS
+                                        COMPRA / RETIROS
                                     </span>
                                      
                                 </button>
@@ -131,23 +133,26 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <?php $class=""; ?>
+                                                        <?php $class=""; $reg=false; ?>
                                                         <?php if($transacciones->toArray()): ?>  
                                                         <?php $__currentLoopData = $transacciones; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $transaccion): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                            <?php $reg=true; ?>
+
                                                             <tr>
                                                                 <td><?php echo e($transaccion->id); ?></td>
                                                                 <td><?php echo e(date_format($transaccion->created_at,"Y/m/d H:i:s")); ?></td>
                                                                 <td><?php echo e($transaccion->tipo()->nombre); ?></td>
                                                                 <?php if($transaccion->tipo()->nombre=="COMPRA"): ?> <?php $class="text-success"; ?> <?php endif; ?>
                                                                 <?php if($transaccion->tipo()->nombre=="VENTA"): ?> <?php $class="text-danger"; ?> <?php endif; ?>
-                                                                <?php if($transaccion->tipo()->nombre=="POLIZA"): ?> <?php $class="text-danger"; ?> <?php endif; ?>
+                                                                <?php if($transaccion->tipo()->nombre=="INVERSIÓN"): ?> <?php $class="text-danger"; ?> <?php endif; ?>
                                                                 <?php if($transaccion->tipo()->nombre=="SPONSORSHIP"): ?> <?php $class="text-success"; ?> <?php endif; ?>
                                                                 <?php if($transaccion->tipo()->nombre=="TRANSFERENCIA"): ?> <?php $class="text-danger"; ?> <?php endif; ?>
                                                                 <?php if($transaccion->tipo()->nombre=="INTERESES"): ?> <?php $class="text-success"; ?> <?php endif; ?>
                                                                 <?php if($transaccion->tipo()->nombre=="ENVIO"): ?> <?php $class="text-danger"; ?> <?php endif; ?>
                                                                 <?php if($transaccion->tipo()->nombre=="RECIBIDO"): ?> <?php $class="text-success"; ?> <?php endif; ?>
-                                                                <?php if($transaccion->tipo()->nombre=="INVERSION POLIZA"): ?> <?php $class="text-success"; ?> <?php endif; ?>
-                                                                <?php if($transaccion->tipo()->nombre=="GANANCIA POLIZA"): ?> <?php $class="text-success"; ?> <?php endif; ?>
+                                                                <?php if($transaccion->tipo()->nombre=="INVERSIÓN CAPITAL"): ?> <?php $class="text-success"; ?> <?php endif; ?>
+                                                                <?php if($transaccion->tipo()->nombre=="INVERSIÓN GANANCIA"): ?> <?php $class="text-success"; ?> <?php endif; ?>
+                                                                <?php if($transaccion->tipo()->nombre=="RETIRO"): ?> <?php $class="text-danger"; ?> <?php endif; ?>
                                                                 <td>
                                                                     <span class="<?php echo e($class); ?>"><?php echo e(number_format($transaccion->valor,2)); ?> </span>
                                                                 </td>
@@ -155,10 +160,9 @@
                                                             </tr><!-- end tr -->
                                                              
                                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                        <?php else: ?>
-                                                            <?php $error='<span class="p-2">No hay transacciones disponibles</span><br><br>'; ?>
-                                                        <?php endif; ?>
                                                         
+                                                        <?php endif; ?>
+                                                        <?php if($reg==false) { $error='<span class="p-2">No hay transacciones disponibles</span><br><br>'; } ?>
                                                        
                                                     </tbody><!-- end tbody -->
                                                 </table><!-- end table -->
@@ -184,7 +188,7 @@
                                                         <?php $error=""; $reg=false; ?>
                                                         <?php if($transacciones->toArray()): ?>  
                                                         <?php $__currentLoopData = $transacciones; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $transaccion): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                            <?php if($transaccion->tipo()->nombre=="VENTA" || $transaccion->tipo()->nombre=="POLIZA"  || $transaccion->tipo()->nombre=="TRANSFERENCIA" ): ?>  
+                                                            <?php if($transaccion->tipo()->nombre=="INVERSIÓN"   || $transaccion->tipo()->nombre=="SPONSORSHIP"  || $transaccion->tipo()->nombre=="INTERESES" ): ?>  
                                                             <?php $reg=true; ?>
                                                             <tr>
                                                                 <td><?php echo e($transaccion->id); ?></td>
@@ -192,15 +196,15 @@
                                                                 <td><?php echo e($transaccion->tipo()->nombre); ?></td>
                                                                 <?php if($transaccion->tipo()->nombre=="COMPRA"): ?> <?php $class="text-success"; ?> <?php endif; ?>
                                                                 <?php if($transaccion->tipo()->nombre=="VENTA"): ?> <?php $class="text-danger"; ?> <?php endif; ?>
-                                                                <?php if($transaccion->tipo()->nombre=="POLIZA"): ?> <?php $class="text-danger"; ?> <?php endif; ?>
+                                                                <?php if($transaccion->tipo()->nombre=="INVERSIÓN"): ?> <?php $class="text-danger"; ?> <?php endif; ?>
                                                                 <?php if($transaccion->tipo()->nombre=="SPONSORSHIP"): ?> <?php $class="text-success"; ?> <?php endif; ?>
                                                                 <?php if($transaccion->tipo()->nombre=="TRANSFERENCIA"): ?> <?php $class="text-danger"; ?> <?php endif; ?>
                                                                 <?php if($transaccion->tipo()->nombre=="INTERESES"): ?> <?php $class="text-success"; ?> <?php endif; ?>
                                                                 <?php if($transaccion->tipo()->nombre=="ENVIO"): ?> <?php $class="text-danger"; ?> <?php endif; ?>
                                                                 <?php if($transaccion->tipo()->nombre=="RECIBIDO"): ?> <?php $class="text-success"; ?> <?php endif; ?>
-                                                                <?php if($transaccion->tipo()->nombre=="INVERSION POLIZA"): ?> <?php $class="text-success"; ?> <?php endif; ?>
-                                                                <?php if($transaccion->tipo()->nombre=="GANANCIA POLIZA"): ?> <?php $class="text-success"; ?> <?php endif; ?>
-
+                                                                <?php if($transaccion->tipo()->nombre=="INVERSIÓN CAPITAL"): ?> <?php $class="text-success"; ?> <?php endif; ?>
+                                                                <?php if($transaccion->tipo()->nombre=="INVERSIÓN GANANCIA"): ?> <?php $class="text-success"; ?> <?php endif; ?>
+                                                                <?php if($transaccion->tipo()->nombre=="RETIRO"): ?> <?php $class="text-danger"; ?> <?php endif; ?>
                                                                 <td>
                                                                     <span class="<?php echo e($class); ?>"><?php echo e(number_format($transaccion->valor,2)); ?> </span>
                                                                 </td>
@@ -208,10 +212,10 @@
                                                             </tr><!-- end tr -->
                                                            <?php endif; ?>
                                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                        <?php else: ?>
-                                                            <?php if($reg==false) { $error='<span class="p-2">No hay transacciones disponibles</span><br><br>'; } ?>
-                                                        <?php endif; ?>
                                                         
+                                                            
+                                                        <?php endif; ?>
+                                                        <?php if($reg==false) { $error='<span class="p-2">No hay transacciones disponibles</span><br><br>'; } ?>
                                                        
                                                     </tbody><!-- end tbody -->
                                                 </table><!-- end table -->
@@ -236,7 +240,7 @@
                                                     <tbody>
                                                         <?php if($transacciones->toArray()): ?>  
                                                         <?php $__currentLoopData = $transacciones; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $transaccion): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                            <?php if($transaccion->tipo()->nombre=="VENTA"): ?>  
+                                                            <?php if($transaccion->tipo()->nombre=="ENVIO" || $transaccion->tipo()->nombre=="TRANSFERENCIA"): ?>  
                                                             <?php $reg=true; ?>
                                                             <tr>
                                                                 <td><?php echo e($transaccion->id); ?></td>
@@ -244,26 +248,26 @@
                                                                 <td><?php echo e($transaccion->tipo()->nombre); ?></td>
                                                                 <?php if($transaccion->tipo()->nombre=="COMPRA"): ?> <?php $class="text-success"; ?> <?php endif; ?>
                                                                 <?php if($transaccion->tipo()->nombre=="VENTA"): ?> <?php $class="text-danger"; ?> <?php endif; ?>
-                                                                <?php if($transaccion->tipo()->nombre=="POLIZA"): ?> <?php $class="text-danger"; ?> <?php endif; ?>
+                                                                <?php if($transaccion->tipo()->nombre=="INVERSIÓN"): ?> <?php $class="text-danger"; ?> <?php endif; ?>
                                                                 <?php if($transaccion->tipo()->nombre=="SPONSORSHIP"): ?> <?php $class="text-success"; ?> <?php endif; ?>
                                                                 <?php if($transaccion->tipo()->nombre=="TRANSFERENCIA"): ?> <?php $class="text-danger"; ?> <?php endif; ?>
                                                                 <?php if($transaccion->tipo()->nombre=="INTERESES"): ?> <?php $class="text-success"; ?> <?php endif; ?>
                                                                 <?php if($transaccion->tipo()->nombre=="ENVIO"): ?> <?php $class="text-danger"; ?> <?php endif; ?>
                                                                 <?php if($transaccion->tipo()->nombre=="RECIBIDO"): ?> <?php $class="text-success"; ?> <?php endif; ?>
-                                                                <?php if($transaccion->tipo()->nombre=="INVERSION POLIZA"): ?> <?php $class="text-success"; ?> <?php endif; ?>
-                                                                <?php if($transaccion->tipo()->nombre=="GANANCIA POLIZA"): ?> <?php $class="text-success"; ?> <?php endif; ?>
+                                                                <?php if($transaccion->tipo()->nombre=="INVERSIÓN CAPITAL"): ?> <?php $class="text-success"; ?> <?php endif; ?>
+                                                                <?php if($transaccion->tipo()->nombre=="INVERSIÓN GANANCIA"): ?> <?php $class="text-success"; ?> <?php endif; ?>
+                                                                <?php if($transaccion->tipo()->nombre=="RETIRO"): ?> <?php $class="text-danger"; ?> <?php endif; ?>
                                                                 <td>
                                                                     <span class="<?php echo e($class); ?>"><?php echo e(number_format($transaccion->valor,2)); ?> </span>
                                                                 </td>
                                                                 
-                                                                <?php else: ?>
-                                                                <?php $error='<span class="p-2">No hay transacciones disponibles</span><br><br>'; ?>
+                                                        
                                                             <?php endif; ?>
                                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                        <?php else: ?>
-                                                            <?php if($reg==false) { $error='<span class="p-2">No hay transacciones disponibles</span><br><br>'; } ?>
-                                                        <?php endif; ?>
                                                         
+                                                            
+                                                        <?php endif; ?>
+                                                        <?php if($reg==false) { $error='<span class="p-2">No hay transacciones disponibles</span><br><br>'; } ?>
                                                        
                                                     </tbody><!-- end tbody -->
                                                 </table><!-- end table -->
@@ -288,7 +292,7 @@
                                                     <tbody>
                                                         <?php if($transacciones->toArray()): ?>  
                                                         <?php $__currentLoopData = $transacciones; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $transaccion): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                            <?php if($transaccion->tipo()->nombre=="COMPRA" || $transaccion->tipo()->nombre=="SPONSORSHIP"  || $transaccion->tipo()->nombre=="INTERESES" ): ?>  
+                                                            <?php if($transaccion->tipo()->nombre=="RETIRO" || $transaccion->tipo()->nombre=="COMPRA" ): ?>  
                                                             <?php $reg=true; ?>
                                                             <tr>
                                                                 <td><?php echo e($transaccion->id); ?></td>
@@ -296,24 +300,22 @@
                                                                 <td><?php echo e($transaccion->tipo()->nombre); ?></td>
                                                                 <?php if($transaccion->tipo()->nombre=="COMPRA"): ?> <?php $class="text-success"; ?> <?php endif; ?>
                                                                 <?php if($transaccion->tipo()->nombre=="VENTA"): ?> <?php $class="text-danger"; ?> <?php endif; ?>
-                                                                <?php if($transaccion->tipo()->nombre=="POLIZA"): ?> <?php $class="text-danger"; ?> <?php endif; ?>
+                                                                <?php if($transaccion->tipo()->nombre=="INVERSIÓN"): ?> <?php $class="text-danger"; ?> <?php endif; ?>
                                                                 <?php if($transaccion->tipo()->nombre=="SPONSORSHIP"): ?> <?php $class="text-success"; ?> <?php endif; ?>
                                                                 <?php if($transaccion->tipo()->nombre=="TRANSFERENCIA"): ?> <?php $class="text-danger"; ?> <?php endif; ?>
                                                                 <?php if($transaccion->tipo()->nombre=="INTERESES"): ?> <?php $class="text-success"; ?> <?php endif; ?>
-                                                                <?php if($transaccion->tipo()->nombre=="INVERSION POLIZA"): ?> <?php $class="text-success"; ?> <?php endif; ?>
-                                                                <?php if($transaccion->tipo()->nombre=="GANANCIA POLIZA"): ?> <?php $class="text-success"; ?> <?php endif; ?>
+                                                                <?php if($transaccion->tipo()->nombre=="ENVIO"): ?> <?php $class="text-danger"; ?> <?php endif; ?>
+                                                                <?php if($transaccion->tipo()->nombre=="RECIBIDO"): ?> <?php $class="text-success"; ?> <?php endif; ?>
+                                                                <?php if($transaccion->tipo()->nombre=="INVERSIÓN CAPITAL"): ?> <?php $class="text-success"; ?> <?php endif; ?>
+                                                                <?php if($transaccion->tipo()->nombre=="INVERSIÓN GANANCIA"): ?> <?php $class="text-success"; ?> <?php endif; ?>
+                                                                <?php if($transaccion->tipo()->nombre=="RETIRO"): ?> <?php $class="text-danger"; ?> <?php endif; ?>
                                                                 <td>
                                                                     <span class="<?php echo e($class); ?>"><?php echo e(number_format($transaccion->valor,2)); ?> </span>
                                                                 </td>
-                                                                
-                                                                <?php else: ?>
-                                                                <?php if($reg==false) { $error='<span class="p-2">No hay transacciones disponibles</span><br><br>'; } ?>
                                                             <?php endif; ?>
                                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                        <?php else: ?>
-                                                            <?php $error='<span class="p-2">No hay transacciones disponibles</span><br><br>'; ?>
                                                         <?php endif; ?>
-                                                        
+                                                        <?php if($reg==false) { $error='<span class="p-2">No hay transacciones disponibles</span><br><br>'; } ?>
                                                        
                                                     </tbody><!-- end tbody -->
                                                 </table><!-- end table -->

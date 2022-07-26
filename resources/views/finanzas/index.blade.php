@@ -1,3 +1,4 @@
+@section('title', "Mis Movimientos")
 <x-app-layout>
     <div class="row">
          
@@ -27,7 +28,7 @@
                         <div class="col-9">
                             <h4 class="fs-22 fw-semibold ff-secondary mb-4">$<span class="counter-value" data-target="@if (@$balance->saldo) {{$balance->saldo}} @else 0.00 @endif">@if (@$balance->saldo) {{$balance->saldo}} @else 0.00 @endif</span></h4>
                             
-                            <input type="text" class="form-control col-10" id="basiInput" value="http://127.0.0.1:8000/register/{{auth()->user()->email}}" disabled>
+                          
                         </div>
                         <div class="avatar-sm flex-shrink-0">
                             <span class="avatar-title bg-soft-primary rounded fs-3">
@@ -41,10 +42,11 @@
                     <a class="btn btn-xs btn-outline-primary p-2" href="{{ route('finanzas.enviar') }}">
                         Enviar
                     </a>&nbsp;&nbsp;&nbsp;
-                    <!--<a class="btn btn-xs btn-outline-primary p-2" target="_blank" href="https://api.whatsapp.com/send?phone=50761741514&text=Deseo%20comprar%20coins%20para%20mi%20cuenta%20iProfit">-->
-
-                    <a class="btn btn-xs btn-outline-primary p-2" target="_blank" href="{{ route('finanzas.compras') }}">
+                    <!--<a class="btn btn-xs btn-outline-primary p-2" target="_blank" href="https://api.whatsapp.com/send?phone=50761741514&text=Deseo%20comprar%20coins%20para%20mi%20cuenta%20iProfit">
                         Comprar
+                    </a>&nbsp;&nbsp;&nbsp;-->
+                    <a class="btn btn-xs btn-outline-primary p-2" target="_blank" href="{{ route('finanzas.retiros') }}">
+                        Retirar
                     </a>
                          
                    
@@ -63,7 +65,7 @@
     -->
         <div class="card">
             <div class="card-header">
-                <h4 class="card-title mb-0">Últimos movimientos</h4>
+                <h4 class="card-title mb-0">Movimientos</h4>
             </div><!-- end card header -->
             <div class="card-body form-steps">
                 <form class="vertical-navs-step">
@@ -84,17 +86,17 @@
                                     </span>
                                      
                                 </button>
-                                <button class="nav-link " id="v-pills-bill-compras" data-bs-toggle="pill" data-bs-target="#v-pills-compras" type="button" role="tab" aria-controls="v-pills-compras" aria-selected="false" data-position="1">
-                                    <span class="step-title me-2">
-                                        <i class="mdi mdi-arrow-right step-icon me-2"></i>
-                                        COMPRAS
-                                    </span>
-                                     
-                                </button>
                                 <button class="nav-link " id="v-pills-bill-ventas" data-bs-toggle="pill" data-bs-target="#v-pills-ventas" type="button" role="tab" aria-controls="v-pills-ventas" aria-selected="false" data-position="1">
+                                <span class="step-title me-2">
+                                    <i class="mdi mdi-arrow-right step-icon me-2"></i>
+                                    ENVÍOS
+                                </span>
+                                
+                            </button>
+                                    <button class="nav-link " id="v-pills-bill-compras" data-bs-toggle="pill" data-bs-target="#v-pills-compras" type="button" role="tab" aria-controls="v-pills-compras" aria-selected="false" data-position="1">
                                     <span class="step-title me-2">
                                         <i class="mdi mdi-arrow-right step-icon me-2"></i>
-                                        VENTAS
+                                        COMPRA / RETIROS
                                     </span>
                                      
                                 </button>
@@ -123,23 +125,26 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        @php $class=""; @endphp
+                                                        @php $class=""; $reg=false; @endphp
                                                         @if ($transacciones->toArray())  
                                                         @foreach ($transacciones as $transaccion )
+                                                            @php $reg=true; @endphp
+
                                                             <tr>
                                                                 <td>{{$transaccion->id}}</td>
                                                                 <td>{{date_format($transaccion->created_at,"Y/m/d H:i:s")}}</td>
                                                                 <td>{{$transaccion->tipo()->nombre}}</td>
                                                                 @if ($transaccion->tipo()->nombre=="COMPRA") @php $class="text-success"; @endphp @endif
                                                                 @if ($transaccion->tipo()->nombre=="VENTA") @php $class="text-danger"; @endphp @endif
-                                                                @if ($transaccion->tipo()->nombre=="POLIZA") @php $class="text-danger"; @endphp @endif
+                                                                @if ($transaccion->tipo()->nombre=="INVERSIÓN") @php $class="text-danger"; @endphp @endif
                                                                 @if ($transaccion->tipo()->nombre=="SPONSORSHIP") @php $class="text-success"; @endphp @endif
                                                                 @if ($transaccion->tipo()->nombre=="TRANSFERENCIA") @php $class="text-danger"; @endphp @endif
                                                                 @if ($transaccion->tipo()->nombre=="INTERESES") @php $class="text-success"; @endphp @endif
                                                                 @if ($transaccion->tipo()->nombre=="ENVIO") @php $class="text-danger"; @endphp @endif
                                                                 @if ($transaccion->tipo()->nombre=="RECIBIDO") @php $class="text-success"; @endphp @endif
-                                                                @if ($transaccion->tipo()->nombre=="INVERSION POLIZA") @php $class="text-success"; @endphp @endif
-                                                                @if ($transaccion->tipo()->nombre=="GANANCIA POLIZA") @php $class="text-success"; @endphp @endif
+                                                                @if ($transaccion->tipo()->nombre=="INVERSIÓN CAPITAL") @php $class="text-success"; @endphp @endif
+                                                                @if ($transaccion->tipo()->nombre=="INVERSIÓN GANANCIA") @php $class="text-success"; @endphp @endif
+                                                                @if ($transaccion->tipo()->nombre=="RETIRO") @php $class="text-danger"; @endphp @endif
                                                                 <td>
                                                                     <span class="{{$class}}">{{number_format($transaccion->valor,2)}} </span>
                                                                 </td>
@@ -147,10 +152,9 @@
                                                             </tr><!-- end tr -->
                                                              
                                                         @endforeach
-                                                        @else
-                                                            @php $error='<span class="p-2">No hay transacciones disponibles</span><br><br>'; @endphp
-                                                        @endif
                                                         
+                                                        @endif
+                                                        @php if($reg==false) { $error='<span class="p-2">No hay transacciones disponibles</span><br><br>'; } @endphp
                                                        
                                                     </tbody><!-- end tbody -->
                                                 </table><!-- end table -->
@@ -176,7 +180,7 @@
                                                         @php $error=""; $reg=false; @endphp
                                                         @if ($transacciones->toArray())  
                                                         @foreach ($transacciones as $transaccion )
-                                                            @if ($transaccion->tipo()->nombre=="VENTA" || $transaccion->tipo()->nombre=="POLIZA"  || $transaccion->tipo()->nombre=="TRANSFERENCIA" )  
+                                                            @if ($transaccion->tipo()->nombre=="INVERSIÓN"   || $transaccion->tipo()->nombre=="SPONSORSHIP"  || $transaccion->tipo()->nombre=="INTERESES" )  
                                                             @php $reg=true; @endphp
                                                             <tr>
                                                                 <td>{{$transaccion->id}}</td>
@@ -184,15 +188,15 @@
                                                                 <td>{{$transaccion->tipo()->nombre}}</td>
                                                                 @if ($transaccion->tipo()->nombre=="COMPRA") @php $class="text-success"; @endphp @endif
                                                                 @if ($transaccion->tipo()->nombre=="VENTA") @php $class="text-danger"; @endphp @endif
-                                                                @if ($transaccion->tipo()->nombre=="POLIZA") @php $class="text-danger"; @endphp @endif
+                                                                @if ($transaccion->tipo()->nombre=="INVERSIÓN") @php $class="text-danger"; @endphp @endif
                                                                 @if ($transaccion->tipo()->nombre=="SPONSORSHIP") @php $class="text-success"; @endphp @endif
                                                                 @if ($transaccion->tipo()->nombre=="TRANSFERENCIA") @php $class="text-danger"; @endphp @endif
                                                                 @if ($transaccion->tipo()->nombre=="INTERESES") @php $class="text-success"; @endphp @endif
                                                                 @if ($transaccion->tipo()->nombre=="ENVIO") @php $class="text-danger"; @endphp @endif
                                                                 @if ($transaccion->tipo()->nombre=="RECIBIDO") @php $class="text-success"; @endphp @endif
-                                                                @if ($transaccion->tipo()->nombre=="INVERSION POLIZA") @php $class="text-success"; @endphp @endif
-                                                                @if ($transaccion->tipo()->nombre=="GANANCIA POLIZA") @php $class="text-success"; @endphp @endif
-
+                                                                @if ($transaccion->tipo()->nombre=="INVERSIÓN CAPITAL") @php $class="text-success"; @endphp @endif
+                                                                @if ($transaccion->tipo()->nombre=="INVERSIÓN GANANCIA") @php $class="text-success"; @endphp @endif
+                                                                @if ($transaccion->tipo()->nombre=="RETIRO") @php $class="text-danger"; @endphp @endif
                                                                 <td>
                                                                     <span class="{{$class}}">{{number_format($transaccion->valor,2)}} </span>
                                                                 </td>
@@ -200,10 +204,10 @@
                                                             </tr><!-- end tr -->
                                                            @endif
                                                         @endforeach
-                                                        @else
-                                                            @php if($reg==false) { $error='<span class="p-2">No hay transacciones disponibles</span><br><br>'; } @endphp
-                                                        @endif
                                                         
+                                                            
+                                                        @endif
+                                                        @php if($reg==false) { $error='<span class="p-2">No hay transacciones disponibles</span><br><br>'; } @endphp
                                                        
                                                     </tbody><!-- end tbody -->
                                                 </table><!-- end table -->
@@ -228,7 +232,7 @@
                                                     <tbody>
                                                         @if ($transacciones->toArray())  
                                                         @foreach ($transacciones as $transaccion )
-                                                            @if ($transaccion->tipo()->nombre=="VENTA")  
+                                                            @if ($transaccion->tipo()->nombre=="ENVIO" || $transaccion->tipo()->nombre=="TRANSFERENCIA")  
                                                             @php $reg=true; @endphp
                                                             <tr>
                                                                 <td>{{$transaccion->id}}</td>
@@ -236,26 +240,26 @@
                                                                 <td>{{$transaccion->tipo()->nombre}}</td>
                                                                 @if ($transaccion->tipo()->nombre=="COMPRA") @php $class="text-success"; @endphp @endif
                                                                 @if ($transaccion->tipo()->nombre=="VENTA") @php $class="text-danger"; @endphp @endif
-                                                                @if ($transaccion->tipo()->nombre=="POLIZA") @php $class="text-danger"; @endphp @endif
+                                                                @if ($transaccion->tipo()->nombre=="INVERSIÓN") @php $class="text-danger"; @endphp @endif
                                                                 @if ($transaccion->tipo()->nombre=="SPONSORSHIP") @php $class="text-success"; @endphp @endif
                                                                 @if ($transaccion->tipo()->nombre=="TRANSFERENCIA") @php $class="text-danger"; @endphp @endif
                                                                 @if ($transaccion->tipo()->nombre=="INTERESES") @php $class="text-success"; @endphp @endif
                                                                 @if ($transaccion->tipo()->nombre=="ENVIO") @php $class="text-danger"; @endphp @endif
                                                                 @if ($transaccion->tipo()->nombre=="RECIBIDO") @php $class="text-success"; @endphp @endif
-                                                                @if ($transaccion->tipo()->nombre=="INVERSION POLIZA") @php $class="text-success"; @endphp @endif
-                                                                @if ($transaccion->tipo()->nombre=="GANANCIA POLIZA") @php $class="text-success"; @endphp @endif
+                                                                @if ($transaccion->tipo()->nombre=="INVERSIÓN CAPITAL") @php $class="text-success"; @endphp @endif
+                                                                @if ($transaccion->tipo()->nombre=="INVERSIÓN GANANCIA") @php $class="text-success"; @endphp @endif
+                                                                @if ($transaccion->tipo()->nombre=="RETIRO") @php $class="text-danger"; @endphp @endif
                                                                 <td>
                                                                     <span class="{{$class}}">{{number_format($transaccion->valor,2)}} </span>
                                                                 </td>
                                                                 
-                                                                @else
-                                                                @php $error='<span class="p-2">No hay transacciones disponibles</span><br><br>'; @endphp
+                                                        
                                                             @endif
                                                         @endforeach
-                                                        @else
-                                                            @php if($reg==false) { $error='<span class="p-2">No hay transacciones disponibles</span><br><br>'; } @endphp
-                                                        @endif
                                                         
+                                                            
+                                                        @endif
+                                                        @php if($reg==false) { $error='<span class="p-2">No hay transacciones disponibles</span><br><br>'; } @endphp
                                                        
                                                     </tbody><!-- end tbody -->
                                                 </table><!-- end table -->
@@ -280,7 +284,7 @@
                                                     <tbody>
                                                         @if ($transacciones->toArray())  
                                                         @foreach ($transacciones as $transaccion )
-                                                            @if ($transaccion->tipo()->nombre=="COMPRA" || $transaccion->tipo()->nombre=="SPONSORSHIP"  || $transaccion->tipo()->nombre=="INTERESES" )  
+                                                            @if ($transaccion->tipo()->nombre=="RETIRO" || $transaccion->tipo()->nombre=="COMPRA" )  
                                                             @php $reg=true; @endphp
                                                             <tr>
                                                                 <td>{{$transaccion->id}}</td>
@@ -288,24 +292,22 @@
                                                                 <td>{{$transaccion->tipo()->nombre}}</td>
                                                                 @if ($transaccion->tipo()->nombre=="COMPRA") @php $class="text-success"; @endphp @endif
                                                                 @if ($transaccion->tipo()->nombre=="VENTA") @php $class="text-danger"; @endphp @endif
-                                                                @if ($transaccion->tipo()->nombre=="POLIZA") @php $class="text-danger"; @endphp @endif
+                                                                @if ($transaccion->tipo()->nombre=="INVERSIÓN") @php $class="text-danger"; @endphp @endif
                                                                 @if ($transaccion->tipo()->nombre=="SPONSORSHIP") @php $class="text-success"; @endphp @endif
                                                                 @if ($transaccion->tipo()->nombre=="TRANSFERENCIA") @php $class="text-danger"; @endphp @endif
                                                                 @if ($transaccion->tipo()->nombre=="INTERESES") @php $class="text-success"; @endphp @endif
-                                                                @if ($transaccion->tipo()->nombre=="INVERSION POLIZA") @php $class="text-success"; @endphp @endif
-                                                                @if ($transaccion->tipo()->nombre=="GANANCIA POLIZA") @php $class="text-success"; @endphp @endif
+                                                                @if ($transaccion->tipo()->nombre=="ENVIO") @php $class="text-danger"; @endphp @endif
+                                                                @if ($transaccion->tipo()->nombre=="RECIBIDO") @php $class="text-success"; @endphp @endif
+                                                                @if ($transaccion->tipo()->nombre=="INVERSIÓN CAPITAL") @php $class="text-success"; @endphp @endif
+                                                                @if ($transaccion->tipo()->nombre=="INVERSIÓN GANANCIA") @php $class="text-success"; @endphp @endif
+                                                                @if ($transaccion->tipo()->nombre=="RETIRO") @php $class="text-danger"; @endphp @endif
                                                                 <td>
                                                                     <span class="{{$class}}">{{number_format($transaccion->valor,2)}} </span>
                                                                 </td>
-                                                                
-                                                                @else
-                                                                @php if($reg==false) { $error='<span class="p-2">No hay transacciones disponibles</span><br><br>'; } @endphp
                                                             @endif
                                                         @endforeach
-                                                        @else
-                                                            @php $error='<span class="p-2">No hay transacciones disponibles</span><br><br>'; @endphp
                                                         @endif
-                                                        
+                                                        @php if($reg==false) { $error='<span class="p-2">No hay transacciones disponibles</span><br><br>'; } @endphp
                                                        
                                                     </tbody><!-- end tbody -->
                                                 </table><!-- end table -->

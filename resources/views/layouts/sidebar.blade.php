@@ -54,7 +54,46 @@
 
                     
                 </li> <!-- end Dashboard Menu -->
-                
+                @if (auth()->user()->isAdmin==1)
+                <li class="menu-title"><span>ADMIN</span></li>
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="#side-adminuser" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                        <i class="las la-user-tie "></i> <span>Usuarios</span>
+                    </a>
+                    <div class="collapse menu-dropdown" id="side-adminuser">
+                        <ul class="nav nav-sm flex-column">
+                         
+                            <li class="nav-item">
+                                <a href="/usuarios" class="nav-link">Usuarios</a>
+                            </li>
+                         
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="#side-admincompra" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                        <i class="las la-dollar-sign"></i> <span>Movimientos</span>
+                    </a>
+                    <div class="collapse menu-dropdown" id="side-admincompra">
+                        <ul class="nav nav-sm flex-column">
+                         
+                            <li class="nav-item">
+                                <a href="/retiros" class="nav-link">Sol. retiros</a>
+                            </li>
+                         
+                        </ul>
+                    </div>
+                    <div class="collapse menu-dropdown" id="side-admincompra">
+                        <ul class="nav nav-sm flex-column">
+                         
+                            <li class="nav-item">
+                                <a href="/acreditaciones" class="nav-link">Acreditaciones</a>
+                            </li>
+                         
+                        </ul>
+                    </div>
+                </li>
+                @endif
             </ul>
         </div>
         <!-- Sidebar -->

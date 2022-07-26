@@ -57,12 +57,12 @@ class MenuSeeder extends Seeder
             'updated_at' => '2022-07-19 19:02:46','link' => '/patrocinios'
         ]);
         Menu::create([
-            'id' => '7','parent' => '0','nombre' => 'Finanzas','user_id' => '1',
+            'id' => '7','parent' => '0','nombre' => 'Movimientos','user_id' => '1',
             'icono' => 'lab la-delicious','status' => '1','created_at' => '2022-07-19 19:02:46',
             'updated_at' => '2022-07-19 19:02:46','link' => '#'
         ]);
         Menu::create([
-            'id' => '8','parent' => '7','nombre' => 'Mis Finanzas','user_id' => '1',
+            'id' => '8','parent' => '7','nombre' => 'Mis Movimientos','user_id' => '1',
             'icono' => '','status' => '1','created_at' => '2022-07-19 19:02:46',
             'updated_at' => '2022-07-19 19:02:46','link' => '/finanzas'
         ]);

@@ -39,7 +39,7 @@
                     <div class="d-flex align-items-end justify-content-between mt-4">
                         <div class="col-9">
                             <div class="pb-1">Ingresa el monto</div>
-                            <input type="number" id="monto" name="monto" class="form-control col-10"   value="" placeholder="$ 0.00">
+                            <input type="number" id="monto" onkeyup="javascript:validarValor(this);" name="monto" class="form-control col-10"   value="" placeholder="$ 0.00">
                             @error('monto')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
@@ -80,5 +80,21 @@
     -->
    
     </div>
-     
+     <script>
+        function validarValor(obj)
+{
+    //console.log(document.getElementById("valor").value);
+    //console.log('<?=$balance[0]->saldo ?>');
+    
+    var saldomax='<?=@$balance[0]->saldo ?>';
+    var val=document.getElementById("monto").value;
+    val=parseFloat(val)
+    saldomax=parseFloat(saldomax)
+  
+    if (val>saldomax)
+    {
+        document.getElementById("monto").value=saldomax ;
+    }
+}
+     </script>
 </x-app-layout>

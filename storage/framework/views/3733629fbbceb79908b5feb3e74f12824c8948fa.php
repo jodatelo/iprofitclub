@@ -1,6 +1,6 @@
 
 <?php $__env->startSection('title'); ?>
-<?php echo app('translator')->get('translation.signin'); ?>
+Iniciar Sesión
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
 <div class="auth-page-wrapper pt-5">
@@ -52,7 +52,7 @@ if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
-unset($__errorArgs, $__bag); ?>" value="<?php echo e(old('email', 'admin@themesbrand.com')); ?>" id="username" name="email" placeholder="Ingrese su email">
+unset($__errorArgs, $__bag); ?>" value="<?php echo e(old('email', '')); ?>" id="username" name="email" placeholder="Ingrese su email">
                                         <?php $__errorArgs = ['email'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -80,7 +80,7 @@ if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
-unset($__errorArgs, $__bag); ?>" name="password" placeholder="Ingrese su contraseña" id="password-input" value="123456">
+unset($__errorArgs, $__bag); ?>" name="password" placeholder="Ingrese su contraseña" id="password-input" value="">
                                             <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted" type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
                                             <?php $__errorArgs = ['password'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -111,10 +111,10 @@ unset($__errorArgs, $__bag); ?>
                         <!-- end card body -->
                     </div>
                     <!-- end card -->
-
+<!--
                     <div class="mt-4 text-center">
                         <p class="mb-0">Aún no tienes cuenta ? <a href="register" class="fw-semibold text-primary text-decoration-underline"> Registrarme </a> </p>
-                    </div>
+                    </div>-->
 
                 </div>
             </div>

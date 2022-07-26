@@ -1,3 +1,4 @@
+@section('title', "Mi Equipo")
 <x-app-layout>
     <div class="row">
         
@@ -17,7 +18,7 @@
                     </ul>
                 </div>
                 @endif
-                <h4 class="card-title mb-0">Patrocinios</h4>
+                <h4 class="card-title mb-0">Equipo</h4>
             </div><!-- end card header -->
             <div class="card-body form-steps">
                 <form class="vertical-navs-step">

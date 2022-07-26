@@ -25,7 +25,7 @@ class UserSeeder extends Seeder
         User::create([
             'id' => '2','name' => 'admin@admin.com','email' => 'admin@admin.com','dni' => '0999888',
             'password' => '$2y$10$HX1nLf4g1iDvL3aE7QNdq.y8ka0HMYFvyPUx6l9AAX5bEgMSS/KKK',
-            'avatar'=>'avatar-1.jpg', 'created_at' => '2022-07-19 19:02:46',
+            'avatar'=>'avatar-1.jpg', 'created_at' => '2022-07-19 19:02:46','cedulafro'=>'','cedularev'=>'',
             'updated_at' => '2022-07-19 19:02:46',
         ]);
     }

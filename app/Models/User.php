@@ -24,6 +24,10 @@ class User extends Authenticatable
         'password',
         'avatar',
         'ref',
+        'isAdmin',
+        'cedulafro',
+        'cedularev',
+        'status',
     ];
 
     /**

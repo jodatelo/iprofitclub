@@ -3,14 +3,16 @@
  
 <head>
     <meta charset="utf-8" />
-    <title><?php echo $__env->yieldContent('title'); ?>| Velzon - Admin & Dashboard Template</title>
+    <title><?php echo $__env->yieldContent('title'); ?>| Iprofit</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
-    <meta content="Themesbrand" name="author" />
+    <meta content="Iprofit" name="description" />
+    <meta content="Iprofit" name="author" />
     <!-- App favicon -->
     <link rel="shortcut icon" href="<?php echo e(URL::asset('assets/images/favicon.ico')); ?>">
     <?php echo $__env->make('layouts.head-css', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+    
 </head>
+
 
 <?php $__env->startSection('body'); ?>
     <?php echo $__env->make('layouts.body', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
@@ -42,6 +44,14 @@
     <!-- JAVASCRIPT -->
     <?php echo $__env->make('layouts.vendor-scripts', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 </body>
+<script src="<?php echo e(URL::asset('/assets/js/app2.min.js')); ?>"></script>
+<script>
+    window.onload = function () {
+        document.getElementById("hamburger-icon").classList.remove('open');
+        document.querySelector(".hamburger-icon").classList.remove("open");
 
+    }
+    
+</script>
 </html>
 <?php /**PATH C:\xampp\htdocs\iprofitclub\resources\views/layout/app.blade.php ENDPATH**/ ?>

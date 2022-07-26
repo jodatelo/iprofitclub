@@ -1,6 +1,6 @@
 @extends('layouts.master-without-nav')
 @section('title')
-@lang('translation.signin')
+Iniciar Sesión
 @endsection
 @section('content')
 <div class="auth-page-wrapper pt-5">
@@ -45,7 +45,7 @@
                                     @csrf
                                     <div class="mb-3">
                                         <label for="username" class="form-label">Email</label>
-                                        <input type="text" class="form-control @error('email') is-invalid @enderror" value="{{ old('email', 'admin@themesbrand.com') }}" id="username" name="email" placeholder="Ingrese su email">
+                                        <input type="text" class="form-control @error('email') is-invalid @enderror" value="{{ old('email', '') }}" id="username" name="email" placeholder="Ingrese su email">
                                         @error('email')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -59,7 +59,7 @@
                                         </div>
                                         <label class="form-label" for="password-input">Contraseña</label>
                                         <div class="position-relative auth-pass-inputgroup mb-3">
-                                            <input type="password" class="form-control pe-5 @error('password') is-invalid @enderror" name="password" placeholder="Ingrese su contraseña" id="password-input" value="123456">
+                                            <input type="password" class="form-control pe-5 @error('password') is-invalid @enderror" name="password" placeholder="Ingrese su contraseña" id="password-input" value="">
                                             <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted" type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
                                             @error('password')
                                                 <span class="invalid-feedback" role="alert">
@@ -83,10 +83,10 @@
                         <!-- end card body -->
                     </div>
                     <!-- end card -->
-
+<!--
                     <div class="mt-4 text-center">
                         <p class="mb-0">Aún no tienes cuenta ? <a href="register" class="fw-semibold text-primary text-decoration-underline"> Registrarme </a> </p>
-                    </div>
+                    </div>-->
 
                 </div>
             </div>
